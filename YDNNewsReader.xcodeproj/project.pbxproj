@@ -327,8 +327,8 @@
 			isa = PBXGroup;
 			children = (
 				C052B807144694AB00C9D754 /* NewsStory.h */,
-				C052B808144694AB00C9D754 /* NewsStory.m */,
 				C0936E651448AF43009975AE /* FavoritesList.h */,
+				C052B808144694AB00C9D754 /* NewsStory.m */,
 				C0936E661448AF43009975AE /* FavoritesList.m */,
 			);
 			name = "Data Models";
