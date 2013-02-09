@@ -35,8 +35,8 @@
                                  @"http://www.yaledailynews.com/blog/category/city/feed",
                                  @"http://www.yaledailynews.com/blog/category/sci-tech/feed",
                                  @"http://www.yaledailynews.com/blog/category/features/feed",
-                                 @"http://www.yaledailynews.com/blog/category/weekend/feed", //no feeds exist for this section
-                                 @"http://www.yaledailynews.com/blog/category/magazine/feed", //no feeds exist for this section
+                                 @"http://www.yaledailynews.com/blog/category/weekend/feed", //no feeds exists
+                                 @"http://www.yaledailynews.com/blog/category/magazine/feed", //no feeds exists
                                  nil] autorelease];
     NSArray *objects = [[[NSArray alloc] initWithObjects:
                          categories, 
@@ -53,12 +53,11 @@
     UITabBarController *masterTab = [[UITabBarController alloc] init];
     
     FeedListController *mainFeedController = [[FeedListController alloc] init];
-    //added
     [mainFeedController resetWithURL:@"http://www.yaledailynews.com/feed" feedTitle:@"Top Stories" isMainFeed:YES];
     CategoryListController *categoryListController = [[CategoryListController alloc] init];
     FavoritesListController *favoritesController = [[FavoritesListController alloc] init];
     
-    //lets consider turning this into table view as well, doesn't seem too hard. Currently it just links to the crosscampus webpage.
+    //lets consider turning this into table view as well, doesn't seem too hard. Currently links to the crosscampus webpage.
     WebViewController *crossCampusController = [[WebViewController alloc] 
                                                 initWithTitle:@"Cross Campus" 
                                                 link:@"http://yaledailynews.com/crosscampus/" 
