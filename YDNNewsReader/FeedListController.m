@@ -19,7 +19,7 @@
 #import "CustomFeedCell.h"
 
 
-static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
+//static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
 
 @implementation FeedListController
 
