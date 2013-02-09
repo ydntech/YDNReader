@@ -124,7 +124,8 @@ static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
     //item child title, link, description child image attribute src, story child p, p, p, etc 
     do {
         NSString *elementName = [TBXML elementName:element];
-        //NSLog(@"%@",elementName); // run this to find element names you need to process
+        //NSLog(@"%@",elementName); // run this to find element names you need to process.
+        //Element names are basically the tags in the RSS feed
         if ([elementName isEqualToString:@"lastBuildDate"]) {
            [newsStories removeAllObjects];
         }
@@ -140,6 +141,11 @@ static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
         else if ([elementName isEqualToString:@"description"]) {
             [currentDescription setString:[TBXML textForElement:element]];
             //return; //WHY THE FUCK WAS THIS LEFT HERE? #HATEDTAHARA
+        }
+        else if ([elementName isEqualToString:@"content:encoded"]) {
+            //HOW WE GET THE SHIT FOR THE ACTUAL STORY? :OOOO
+            //There is also wfw:commentRss
+            //and slash:comments
         }
         /* else if ([elementName isEqualToString:@"pubDate"]) {
             [currentDate setString:[TBXML textForElement:element]];
