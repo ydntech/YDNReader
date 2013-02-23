@@ -37,6 +37,7 @@
     currentDescription = [[NSMutableString alloc] init];
     //currentDate = [[NSMutableString alloc] init];
     currentImageLink = [[NSMutableString alloc] init];
+    currentStoryContent = [[NSMutableString alloc] init];
     
     [[self navigationItem] setTitle:feedTitle];
 }
@@ -131,19 +132,26 @@
         }
         else if ([elementName isEqualToString:@"item"]) {
             storyToAdd = [[NewsStory alloc] init];
+            //NSLog(@"%@",storyToAdd);
         }
         else if ([elementName isEqualToString:@"title"]) {
             [currentTitle setString:[TBXML textForElement:element]];
+            //NSLog(@"%@",currentTitle);
         }
         else if ([elementName isEqualToString:@"link"]) {
             [currentLink setString:[TBXML textForElement:element]];
+            //NSLog(@"%@",currentLink);
         }
         else if ([elementName isEqualToString:@"description"]) {
             [currentDescription setString:[TBXML textForElement:element]];
             //return; //WHY THE FUCK WAS THIS LEFT HERE? #HATEDTAHARA
+            //NSLog(@"%@",currentDescription);
         }
         else if ([elementName isEqualToString:@"content:encoded"]) {
             //HOW WE GET THE SHIT FOR THE ACTUAL STORY? :OOOO
+            
+            [currentStoryContent setString:[TBXML textForElement:element]];
+            NSLog(@"%@",currentStoryContent);
             //There is also wfw:commentRss
             //and slash:comments
         }
