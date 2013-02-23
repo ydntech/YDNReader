@@ -172,7 +172,8 @@
 - (void)reloadWithTitle:(NSString *)titleOfStory description:(NSString *)descriptionOfStory link:(NSString *)linkOfStory imageLink:(NSString *)imageLinkOfStory
 {
     [self setStoryTitle:[NSMutableString stringWithString:titleOfStory]];
-    [self setStoryDescription:[NSMutableString stringWithString:descriptionOfStory]];
+    if (descriptionOfStory != nil)
+        [self setStoryDescription:[NSMutableString stringWithString:descriptionOfStory]];
     [self setStoryLink:[NSMutableString stringWithString:linkOfStory]];
     [self setStoryImageLink:[NSMutableString stringWithString:imageLinkOfStory]];
     
