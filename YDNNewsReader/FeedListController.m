@@ -19,7 +19,7 @@
 #import "CustomFeedCell.h"
 
 
-static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
+//static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
 
 @implementation FeedListController
 
@@ -50,7 +50,9 @@ static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn
 {
+    //this string contains the entire RSS feed we get from the feedURL
     NSMutableString *xmlString = [[NSMutableString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
+    //NSLog(@"%@", xmlString); // this displays the stuff from the www.yaledailynews.com/feed
  
     //eventually make a program/parser to catch ALL OF THIS SHIT.
     [xmlString replaceOccurrencesOfString:@"&lt;" withString:@"<" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
@@ -62,12 +64,12 @@ static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
     [xmlString replaceOccurrencesOfString:@"&#8212;" withString:@"-" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#8213;" withString:@"-" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
  
-    TBXML *tbxml = [[TBXML tbxmlWithXMLString:xmlString] retain];
-    [xmlString release];
+    TBXML *tbxml = [[TBXML tbxmlWithXMLString:xmlString] retain]; //parses xml into tbxml
+    [xmlString release]; //don't need xml anymore
  
     // If TBXML found a root node, process element and iterate all children
-    if (tbxml.rootXMLElement)
-    [self traverseElement:tbxml.rootXMLElement];
+    if (tbxml.rootXMLElement) //TBXML.m does this, inits when he initialized the tbxml
+    [self traverseElement:tbxml.rootXMLElement]; //Calls traverseElement (which is in THIS file, just below, which iterates over all the elements and processes them.
  
     [tbxml release];
  
@@ -122,7 +124,7 @@ static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
     //item child title, link, description child image attribute src, story child p, p, p, etc 
     do {
         NSString *elementName = [TBXML elementName:element];
-        //NSLog(@"%@",elementName);
+        //NSLog(@"%@",elementName); // run this to find element names you need to process
         if ([elementName isEqualToString:@"lastBuildDate"]) {
            [newsStories removeAllObjects];
         }
@@ -135,9 +137,9 @@ static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
         else if ([elementName isEqualToString:@"link"]) {
             [currentLink setString:[TBXML textForElement:element]];
         }
-        else if ([elementName isEqualToString:@"p"]) {
+        else if ([elementName isEqualToString:@"description"]) {
             [currentDescription setString:[TBXML textForElement:element]];
-            return;
+            //return; //WHY THE FUCK WAS THIS LEFT HERE? #HATEDTAHARA
         }
         /* else if ([elementName isEqualToString:@"pubDate"]) {
             [currentDate setString:[TBXML textForElement:element]];
@@ -145,14 +147,18 @@ static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
         else if ([elementName isEqualToString:@"img"] && element->firstAttribute != nil) {
             TBXMLAttribute *attribute = element->firstAttribute;
             [currentImageLink setString:[TBXML attributeValue:attribute]];
+            //NSLog(@"%@",[TBXML attributeValue:attribute]);
         }
         else if([elementName isEqualToString:@"guid"]) {
+            //storyToAdd is a NewsStory (declared in FeedListController.h). This is
+            //initializing it with the stuff it found in the tbxml element. See te
+            //method name in NewsStory
             [storyToAdd loadWithTitle:currentTitle 
                                  link:currentLink 
-                          description:currentDescription //date:currentDate;
+                          description:currentDescription //not all articles have a desc. date:currentDate;
                             imageLink:currentImageLink];
             [newsStories addObject:storyToAdd];
-            
+            //NSLog(@"%@", currentDescription); // THIS WAS NIL? SOMETIMES IN THE FEEDS IT IS NIL.
             [storyToAdd release];
             storyToAdd = nil;
             

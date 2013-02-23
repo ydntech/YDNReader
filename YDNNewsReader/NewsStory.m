@@ -32,9 +32,10 @@
     //[self setLink:articleLink]; //using this instead of declaring an NUSMutableString (down below) causes entire thing to terminate.
     
     if(!articleDescription) {
-        [self setStoryDescription:title];
+        //[self setStoryDescription:title];
     } else if ([articleDescription isEqualToString:@""]) {
-        [self setStoryDescription:title];
+        //[self setStoryDescription:title];
+        //NSLog(@"%@",articleDescription);
     } else {
         [self setStoryDescription:articleDescription];
     }
@@ -44,8 +45,7 @@
         
     //make www. into m., if necessary --currently disabled
     NSMutableString *mobileLink = [[[NSMutableString alloc] initWithString:articleLink] autorelease];
-    //NSLog(@"%@",articleLink); //load link in the table view. Nothing triggers here when clicking the story itself. HERE IS NOT THE PROBLEM.
-    //[mobileLink replaceOccurrencesOfString:@"/www." withString:@"/m." options:NSLiteralSearch range:NSMakeRange(0, [mobileLink length])];
+    //[mobileLink replaceOccurrencesOfString:@"/www." withString:@"/m." options:NSLiteralSearch range:NSMakeRange(0, [mobileLink length])]; //This will renable access to a mobile site.
     [self setLink:mobileLink];
    
 }

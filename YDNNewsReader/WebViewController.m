@@ -184,6 +184,7 @@
     //Original link failing because NSURL converts certain characters into code (# into %23). http://stackoverflow.com/questions/1528060/uiwebview-error-while-loading-url
     //Needed to encode the URL using this code I took from the internet. I assume it protects the #
     //http://stackoverflow.com/questions/5822138/webview-failed-error-in-iphone
+    
     NSString *encodedString = [storyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:encodedString];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
