@@ -5,7 +5,7 @@
 //  Created by Daniel Tahara on 10/12/11.
 //  Copyright 2011 Yale Daily News Publishing Inc. All rights reserved.
 //
-
+#import "NewsViewController.h"
 #import "WebViewController.h"
 #import "FeedListController.h"
 #import "CategoryListController.h"
@@ -56,10 +56,12 @@
     FavoritesListController *favoritesController = [[FavoritesListController alloc] init];
     
     //lets consider turning this into table view as well, doesn't seem too hard. Currently links to the crosscampus webpage.
-    WebViewController *crossCampusController = [[WebViewController alloc] 
+    NewsViewController *crossCampusController = [[NewsViewController alloc] initWithNibName:nil bundle:nil];
+    
+    /*WebViewController *crossCampusController = [[WebViewController alloc]
                                                 initWithTitle:@"Cross Campus" 
                                                 link:@"http://yaledailynews.com/crosscampus/" 
-                                                hidesBar:NO];
+                                                hidesBar:NO];*/
     
     UIColor *yaleBlue = [UIColor colorWithRed:0.0588235294
                                         green:0.301960784
@@ -99,7 +101,6 @@
 
 
     /*CROSS CAMPUS TAB (WebViewController)*/
-    
     UINavigationController *crossCampusTab = [[[UINavigationController alloc] initWithRootViewController:crossCampusController] autorelease];
     NSString *ccImagePath = [[NSBundle mainBundle] pathForResource:@"124-bullhorn" 
                                                                     ofType:@"png"];

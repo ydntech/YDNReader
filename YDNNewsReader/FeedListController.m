@@ -59,6 +59,7 @@
     [xmlString replaceOccurrencesOfString:@"&lt;" withString:@"<" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&gt;" withString:@">" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#124;" withString:@"|" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    [xmlString replaceOccurrencesOfString:@"&#038;" withString:@"&" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#8217;" withString:@"\'" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#8220;" withString:@"\"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#8221;" withString:@"\"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
@@ -151,7 +152,7 @@
             //HOW WE GET THE SHIT FOR THE ACTUAL STORY? :OOOO
             
             [currentStoryContent setString:[TBXML textForElement:element]];
-            NSLog(@"%@",currentStoryContent);
+            //NSLog(@"%@",currentStoryContent);
             //There is also wfw:commentRss
             //and slash:comments
         }
