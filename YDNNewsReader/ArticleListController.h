@@ -14,13 +14,15 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 
-@class WebViewController;
+//@class WebViewController;
+@class NewsViewController;
 
 @interface ArticleListController : TISwipeableTableViewController <CustomFeedCellDelegate, MFMailComposeViewControllerDelegate>//, UIActionSheetDelegate>
 {
     NSMutableArray *newsStories;
     
-    WebViewController *webView;
+    NewsViewController *webView;
+    //WebViewController *webView;
     
     int lastSwipedCell, lastSelectedCell;
 }

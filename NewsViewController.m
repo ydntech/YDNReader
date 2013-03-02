@@ -44,15 +44,20 @@
 
 - (void)loadStory: (NSString *)story
 {
+    //lets add something here to parse the story string before actually putting it out?
+    //Also add and parse the title
+    
     UITextView *aboutStable = [[UITextView alloc] init];
     [aboutStable setFont:[UIFont fontWithName:@"Helvetica" size:12]];
     [aboutStable setText:story];
     [aboutStable setTextColor:[UIColor grayColor]];
     [aboutStable setBackgroundColor:[UIColor clearColor]];
     [aboutStable setTextAlignment:UITextAlignmentCenter];
-    [aboutStable setFrame:CGRectMake(0, 302, 320, 79)];
+    [aboutStable setFrame:CGRectMake(0, 0, 320, 300)];
     aboutStable.editable = NO;
     [self.view addSubview:aboutStable];
 }
+
+//add a (void)loadAdvertisement: for future adspace?
 
 @end

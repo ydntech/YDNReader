@@ -171,6 +171,7 @@
             [storyToAdd loadWithTitle:currentTitle 
                                  link:currentLink 
                           description:currentDescription //not all articles have a desc. date:currentDate;
+                              content:currentStoryContent
                             imageLink:currentImageLink];
             [newsStories addObject:storyToAdd];
             //NSLog(@"%@", currentDescription); // THIS WAS NIL? SOMETIMES IN THE FEEDS IT IS NIL.
@@ -294,6 +295,7 @@
     [currentTitle release];
     [currentLink release];
     [currentDescription release];
+    [currentStoryContent release];
     
     [super dealloc];
 }
