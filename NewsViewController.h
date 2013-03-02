@@ -10,4 +10,7 @@
 
 @interface NewsViewController : UIViewController
 
+/*This is a new init method to load story text into box.*/
+- (id)initWithStory:(NSString *)storyText;
+
 @end

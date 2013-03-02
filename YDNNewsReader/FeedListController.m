@@ -30,7 +30,7 @@
     feedURL = [[NSMutableString alloc] initWithString:rssFeedURL];
     feedTitle = [[NSMutableString alloc] initWithString:rssFeedTitle];
     newsStories = [[NSMutableArray alloc] init];
-    webView = [[WebViewController alloc] init];
+    //webView = [[WebViewController alloc] init];
     
     currentTitle = [[NSMutableString alloc] init];
     currentLink = [[NSMutableString alloc] init];

@@ -56,7 +56,8 @@
     FavoritesListController *favoritesController = [[FavoritesListController alloc] init];
     
     //lets consider turning this into table view as well, doesn't seem too hard. Currently links to the crosscampus webpage.
-    NewsViewController *crossCampusController = [[NewsViewController alloc] initWithNibName:nil bundle:nil];
+    
+    NewsViewController *crossCampusController = [[NewsViewController alloc] initWithStory:@"This is a view made by Vincent!"];
     
     /*WebViewController *crossCampusController = [[WebViewController alloc]
                                                 initWithTitle:@"Cross Campus" 

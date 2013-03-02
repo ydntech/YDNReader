@@ -17,15 +17,16 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [self loadStory:nil];
-    }
     return self;
 }
 
 - (id)initWithStory:(NSString *)storyText
 {
-    
+    [self initWithNibName:nil bundle:nil];
+    if(self) { //check if it has actually been init'ed
+        [self loadStory:storyText];
+    }
+    return self;
 }
 
 - (void)viewDidLoad
@@ -45,7 +46,7 @@
 {
     UITextView *aboutStable = [[UITextView alloc] init];
     [aboutStable setFont:[UIFont fontWithName:@"Helvetica" size:12]];
-    [aboutStable setText:@"If You are experiencing problems with visiting our site or contacting us, please check Your network connection"];
+    [aboutStable setText:story];
     [aboutStable setTextColor:[UIColor grayColor]];
     [aboutStable setBackgroundColor:[UIColor clearColor]];
     [aboutStable setTextAlignment:UITextAlignmentCenter];
