@@ -20,12 +20,12 @@
 
 + (void)initialize
 {
-    NSMutableArray *categories = [[[NSMutableArray alloc] initWithObjects:      // categories in the menu
+    NSArray *categories = [[[NSArray alloc] initWithObjects:      // categories in the menu
                                    @"News", @"Sports", @"Opinion", 
                                    @"City", @"Science/Technology",
                                    @"Features", @"Weekend", @"Magazine", nil]
                                   autorelease];
-    NSMutableArray *feedURLs = [[[NSMutableArray alloc] initWithObjects:        // array of feed urls
+    NSArray *feedURLs = [[[NSArray alloc] initWithObjects:        // array of feed urls
                                  @"http://www.yaledailynews.com/feed",
                                  @"http://www.yaledailynews.com/blog/category/sports/feed",
                                  @"http://www.yaledailynews.com/blog/category/opinion/feed",
