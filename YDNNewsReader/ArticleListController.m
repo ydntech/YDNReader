@@ -2,13 +2,13 @@
 //  ArticleListController.m
 //  YDNNewsReader
 //
-//  Created by Daniel Tahara on 12/5/11.
-//  Copyright 2011 Yale University. All rights reserved.
+//  Created by Hu, Rozner, Chen on 3/2013
+//  Copyright 2013 Yale University. All rights reserved.
 //
 
 #import "ArticleListController.h"
 
-#import "WebViewController.h"
+#import "NewsViewController.h"
 
 #import "NewsStory.h"
 #import "FavoritesList.h"
@@ -294,12 +294,15 @@
     
     if(!webView)
     {
-        webView = [[WebViewController alloc] initWithTitle:entry.title description:entry.storyDescription link:entry.link imageLink:entry.imageLink hidesBar:YES]; 
+        
+        webView = [[NewsViewController alloc] initWithStory:entry];
+        //webView = [[WebViewController alloc] initWithTitle:entry.title description:entry.storyDescription link:entry.link imageLink:entry.imageLink hidesBar:YES];
        //NSLog(@"Just entered here");
     }
     else
     {
-       [webView reloadWithTitle:entry.title description:entry.storyDescription link:entry.link imageLink:entry.imageLink];
+        webView = [[NewsViewController alloc] initWithStory:entry];
+       //[webView reloadWithTitle:entry.title description:entry.storyDescription link:entry.link imageLink:entry.imageLink];
         //NSLog(@"Just entered here1"); // Displays before "Webview appearing" in WebViewContoller
     }
     

@@ -2,8 +2,8 @@
 //  ArticleListController.h
 //  YDNNewsReader
 //
-//  Created by Daniel Tahara on 12/5/11.
-//  Copyright 2011 Yale University. All rights reserved.
+//  Created by Hu, Rozner, Chen on 3/2013
+//  Copyright 2013 Yale University. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -14,13 +14,15 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 
-@class WebViewController;
+//@class WebViewController;
+@class NewsViewController;
 
 @interface ArticleListController : TISwipeableTableViewController <CustomFeedCellDelegate, MFMailComposeViewControllerDelegate>//, UIActionSheetDelegate>
 {
     NSMutableArray *newsStories;
     
-    WebViewController *webView;
+    NewsViewController *webView;
+    //WebViewController *webView;
     
     int lastSwipedCell, lastSelectedCell;
 }

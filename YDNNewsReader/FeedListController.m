@@ -30,7 +30,7 @@
     feedURL = [[NSMutableString alloc] initWithString:rssFeedURL];
     feedTitle = [[NSMutableString alloc] initWithString:rssFeedTitle];
     newsStories = [[NSMutableArray alloc] init];
-    webView = [[WebViewController alloc] init];
+    //webView = [[WebViewController alloc] init];
     
     currentTitle = [[NSMutableString alloc] init];
     currentLink = [[NSMutableString alloc] init];
@@ -56,6 +56,13 @@
     //NSLog(@"%@", xmlString); // this displays the stuff from the www.yaledailynews.com/feed
  
     //eventually make a program/parser to catch ALL OF THIS SHIT.
+    
+    /*REPLACE THIS SHIT*/
+    [xmlString replaceOccurrencesOfString:@"<p>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    [xmlString replaceOccurrencesOfString:@"</p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    /*REPLACE THIS SHIT*/
+    
+    
     [xmlString replaceOccurrencesOfString:@"&lt;" withString:@"<" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&gt;" withString:@">" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#124;" withString:@"|" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
@@ -171,6 +178,7 @@
             [storyToAdd loadWithTitle:currentTitle 
                                  link:currentLink 
                           description:currentDescription //not all articles have a desc. date:currentDate;
+                              content:currentStoryContent
                             imageLink:currentImageLink];
             [newsStories addObject:storyToAdd];
             //NSLog(@"%@", currentDescription); // THIS WAS NIL? SOMETIMES IN THE FEEDS IT IS NIL.
@@ -294,6 +302,7 @@
     [currentTitle release];
     [currentLink release];
     [currentDescription release];
+    [currentStoryContent release];
     
     [super dealloc];
 }

@@ -3,7 +3,7 @@
 //  YDNNewsReader
 //
 //  Created by Daniel Tahara on 12/1/11.
-//  Copyright 2011 Yale University. All rights reserved.
+//  Copyright 2013 Yale University. All rights reserved.
 //
 
 #import "CustomFeedCell.h"
