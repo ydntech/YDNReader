@@ -146,7 +146,7 @@
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     picker.mailComposeDelegate = self; 
     
-    [picker setSubject:[NSString stringWithString:@"Check out this article from the Yale Daily News"]];
+    [picker setSubject:@"Check out this article from the Yale Daily News"];
     
     // Fill out the email body text
     NSString *appLink = @"http://itunes.apple.com/us/app/yale-daily-news/id480072824?mt=8";
@@ -292,7 +292,7 @@
     
     NewsStory *entry = [self.newsStories objectAtIndex:[indexPath row]];
     
-    if(!webView) 
+    if(!webView)
     {
         webView = [[WebViewController alloc] initWithTitle:entry.title description:entry.storyDescription link:entry.link imageLink:entry.imageLink hidesBar:YES]; 
        //NSLog(@"Just entered here");

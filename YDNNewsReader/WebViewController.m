@@ -107,7 +107,7 @@
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     picker.mailComposeDelegate = self; 
     
-    [picker setSubject:[NSString stringWithString:@"Check out this article from the Yale Daily News"]];
+    [picker setSubject:@"Check out this article from the Yale Daily News"];
     
     // Fill out the email body text
     NSString *appLink = @"http://itunes.apple.com/us/app/yale-daily-news/id480072824?mt=8";
@@ -195,7 +195,7 @@
     //NSLog(@"%@", storyLink);
     
     /*ALSO THIS APP IS STUPID RIGHT NOW, IT IS BASICALLY AN EASIER WAY TO GET TO THE WEBPAGE DISPLAYING THE STORY LOL. Probably those fancy
-     apps online for WSJ or something have fancy mobile websites that make their content look nicer on a phone. AND WE DON'T LOL.
+     apps online for WSJ or something have fancy mobile websites that make their content look nicer on a phone. AND WE DON'T LOL. LOL.
      */
 }
 
