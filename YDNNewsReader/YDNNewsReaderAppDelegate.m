@@ -57,7 +57,7 @@
     
     //lets consider turning this into table view as well, doesn't seem too hard. Currently links to the crosscampus webpage.
     
-    NewsViewController *crossCampusController = [[NewsViewController alloc] initWithStory:@"This is a view made by Vincent!"];
+    NewsViewController *crossCampusController = [[NewsViewController alloc] initWithStory:nil];
     
     /*WebViewController *crossCampusController = [[WebViewController alloc]
                                                 initWithTitle:@"Cross Campus" 

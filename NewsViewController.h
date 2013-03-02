@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NewsStory.h"
 
 @interface NewsViewController : UIViewController
 
 /*This is a new init method to load story text into box.*/
-- (id)initWithStory:(NSString *)storyText;
+- (id)initWithStory:(NewsStory *)entry;
 
 @end

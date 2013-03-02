@@ -295,13 +295,13 @@
     if(!webView)
     {
         
-        webView = [[NewsViewController alloc] initWithStory:entry.storyContent];
+        webView = [[NewsViewController alloc] initWithStory:entry];
         //webView = [[WebViewController alloc] initWithTitle:entry.title description:entry.storyDescription link:entry.link imageLink:entry.imageLink hidesBar:YES];
        //NSLog(@"Just entered here");
     }
     else
     {
-        webView = [[NewsViewController alloc] initWithStory:entry.storyContent];
+        webView = [[NewsViewController alloc] initWithStory:entry];
        //[webView reloadWithTitle:entry.title description:entry.storyDescription link:entry.link imageLink:entry.imageLink];
         //NSLog(@"Just entered here1"); // Displays before "Webview appearing" in WebViewContoller
     }

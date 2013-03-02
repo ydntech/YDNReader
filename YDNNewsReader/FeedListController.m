@@ -56,6 +56,13 @@
     //NSLog(@"%@", xmlString); // this displays the stuff from the www.yaledailynews.com/feed
  
     //eventually make a program/parser to catch ALL OF THIS SHIT.
+    
+    /*REPLACE THIS SHIT*/
+    [xmlString replaceOccurrencesOfString:@"<p>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    [xmlString replaceOccurrencesOfString:@"</p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    /*REPLACE THIS SHIT*/
+    
+    
     [xmlString replaceOccurrencesOfString:@"&lt;" withString:@"<" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&gt;" withString:@">" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#124;" withString:@"|" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
