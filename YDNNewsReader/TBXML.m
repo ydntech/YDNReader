@@ -455,7 +455,7 @@
 							*chr = 0;
 							
 							// remove cdata section tags
-							while (CDATAStart = strstr(value, "<![CDATA[")) {
+							while ((CDATAStart = strstr(value, "<![CDATA["))) {
 								
 								// remove begin cdata tag
 								memcpy(CDATAStart, CDATAStart+9, strlen(CDATAStart)-8);
