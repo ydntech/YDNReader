@@ -13,7 +13,7 @@
 
 @implementation NewsStory
 
-@synthesize title, link, storyDescription, imageLink, storyContent; //publicationDate
+@synthesize title, link, storyDescription, imageLink, storyContent, publicationDate, author;
 @synthesize thumbnail;
 
 - (id)init
@@ -24,7 +24,8 @@
 - (void)loadWithTitle:(NSString *)articleTitle 
                link:(NSString *)articleLink 
         description:(NSString *)articleDescription 
-         //      date:(NSString *)pubDate
+               date:(NSString *)pubDate
+               author:(NSString *)articleAuthor
               content:(NSString *)articleContent
           imageLink:(NSString *)imLink
 {
@@ -41,7 +42,8 @@
         [self setStoryDescription:articleDescription];
     }
     
-    //[self setPublicationDate:pubDate];
+    [self setPublicationDate:pubDate];
+    [self setAuthor:articleAuthor]; //might need to check if nil.
     [self setImageLink:imLink];
     
     if(!articleContent) {
@@ -76,7 +78,7 @@
     [encoder encodeObject:title forKey:@"title"];
     [encoder encodeObject:link forKey:@"link"];
     [encoder encodeObject:storyDescription forKey:@"storyDescription"];
-    //[encoder encodeObject:publicationDate forKey:@"publicationDate"];
+    [encoder encodeObject:publicationDate forKey:@"publicationDate"];
     [encoder encodeObject:storyContent forKey:@"storyContent"];
     [encoder encodeObject:imageLink forKey:@"imageLink"];
     
@@ -90,7 +92,7 @@
         [self setTitle:[decoder decodeObjectForKey:@"title"]];
         [self setLink:[decoder decodeObjectForKey:@"link"]];
         [self setStoryDescription:[decoder decodeObjectForKey:@"storyDescription"]];
-        //[self setPublicationDate:[decoder decodeObjectForKey:@"publicationDate"]];
+        [self setPublicationDate:[decoder decodeObjectForKey:@"publicationDate"]];
         [self setStoryContent: [decoder decodeObjectForKey:@"articleContent"]];
         [self setImageLink:[decoder decodeObjectForKey:@"imageLink"]];
         
@@ -107,7 +109,7 @@
     [title release];
     [link release];
     [storyDescription release];
-    //[publicationDate release];
+    [publicationDate release];
     [storyContent release];
     [imageLink release];
     [super dealloc];

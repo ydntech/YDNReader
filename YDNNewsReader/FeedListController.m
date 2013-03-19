@@ -35,7 +35,8 @@
     currentTitle = [[NSMutableString alloc] init];
     currentLink = [[NSMutableString alloc] init];
     currentDescription = [[NSMutableString alloc] init];
-    //currentDate = [[NSMutableString alloc] init];
+    currentAuthor = [[NSMutableString alloc] init];
+    currentDate = [[NSMutableString alloc] init];
     currentImageLink = [[NSMutableString alloc] init];
     currentStoryContent = [[NSMutableString alloc] init];
     
@@ -151,12 +152,14 @@
             [currentLink setString:[TBXML textForElement:element]];
             //NSLog(@"%@",currentLink);
         }
-        /* else if ([elementName isEqualToString:@"pubDate"]) {
-         [currentDate setString:[TBXML textForElement:element]];
-         } */
-        /* else if ([elementName isEqualToString:@"dc:creator"]) {
-         //set the author to this one
-         } */
+        else if ([elementName isEqualToString:@"pubDate"]) {
+            [currentDate setString:[TBXML textForElement:element]];
+            //NSLog(@"%@",currentDate);
+        }
+        else if ([elementName isEqualToString:@"dc:creator"]) {
+            [currentAuthor setString:[TBXML textForElement:element]];
+            NSLog(@"%@",currentAuthor);
+        }
         else if ([elementName isEqualToString:@"description"]) {
             [currentDescription setString:[TBXML textForElement:element]];
             //return; //WHY THE FUCK WAS THIS LEFT HERE? #HATEDTAHARA
@@ -173,7 +176,9 @@
             //initializing it with the stuff it found in the tbxml element.
             [storyToAdd loadWithTitle:currentTitle
                                  link:currentLink
-                          description:currentDescription //not all articles have a desc. date:currentDate;
+                          description:currentDescription //not all articles have a desc.
+                                 date:currentDate
+                               author:currentAuthor
                               content:currentStoryContent
                             imageLink:currentImageLink];
             //NSLog(@"%@", storyToAdd);  //debug helper
@@ -308,6 +313,7 @@
     [currentTitle release];
     [currentLink release];
     [currentDescription release];
+    [currentAuthor release];
     [currentStoryContent release];
     
     [super dealloc];

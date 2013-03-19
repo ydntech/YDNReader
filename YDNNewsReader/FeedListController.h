@@ -23,7 +23,7 @@
     NSURLConnection *connection;
     NSMutableData *xmlData;
     
-    NSMutableString *currentTitle, *currentLink, *currentDescription, *currentImageLink, *currentStoryContent;
+    NSMutableString *currentTitle, *currentLink, *currentDescription, *currentImageLink, *currentStoryContent, *currentDate, *currentAuthor;
     NewsStory *storyToAdd;
 
     EGORefreshTableHeaderView *refreshHeaderView;

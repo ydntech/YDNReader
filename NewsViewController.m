@@ -50,7 +50,7 @@
     /*Title Box*/
     UITextView *storyTitle = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
     [storyTitle setText:entry.title];                                                   //set title string
-    [storyTitle setFont:[UIFont fontWithName:@"Helvetica" size:15]];                    //font stuff
+    [storyTitle setFont:[UIFont fontWithName:@"Helvetica" size:20]];                    //font stuff
     [storyTitle sizeToFit];                                                             //make the label fit to the size of its text
     CGRect textFrame = storyTitle.frame;                                                //make a rect to resize the textview to the height of its contents
     textFrame.size.height = storyTitle.contentSize.height;
@@ -58,6 +58,27 @@
     storyTitle.editable = NO;
     currHeight += storyTitle.frame.size.height;                                         //update current height
     
+    /*Story PubDate Box*/
+    UITextView *storyDate = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
+    [storyDate setText:entry.publicationDate];                                         //set date string
+    [storyDate setFont:[UIFont fontWithName:@"Helvetica" size:14]];                    //font stuff
+    [storyDate sizeToFit];                                                             //make the label fit to the size of its text
+    textFrame = storyDate.frame;                                                //make a rect to resize the textview to the height of its contents
+    textFrame.size.height = storyDate.contentSize.height;
+    storyDate.frame = textFrame;
+    storyDate.editable = NO;
+    currHeight += storyDate.frame.size.height;                                         //update current height
+    
+    /*Story Author Box*/
+    UITextView *storyAuthor = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
+    [storyAuthor setText:entry.author];                                         //set author string
+    [storyAuthor setFont:[UIFont fontWithName:@"Helvetica" size:14]];                    //font stuff
+    [storyAuthor sizeToFit];                                                             //make the label fit to the size of its text
+    textFrame = storyAuthor.frame;                                                //make a rect to resize the textview to the height of its contents
+    textFrame.size.height = storyAuthor.contentSize.height;
+    storyAuthor.frame = textFrame;
+    storyAuthor.editable = NO;
+    currHeight += storyAuthor.frame.size.height;                                         //update current height
     
     /*Story content box*/
     UITextView *storyContent = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)]; //now make a box for the story content under the label
@@ -68,12 +89,14 @@
     textFrame = storyContent.frame;                                                     //make a rect to resize the textview to the height of its contents
     textFrame.size.height = storyContent.contentSize.height;
     storyContent.frame = textFrame;
-    storyContent.editable = NO;                                                                         //don't let people edit our textview
+    storyContent.editable = NO;                                                                         
     currHeight += storyContent.frame.size.height;
     
     
     storyWindow.contentSize = CGSizeMake(storyWindow.contentSize.width, currHeight); //make the scrollable view the height of both objects
     [storyWindow addSubview:storyTitle];    //add title box
+    [storyWindow addSubview:storyDate];    //add date box
+    [storyWindow addSubview:storyAuthor];    //add author box
     [storyWindow addSubview:storyContent];      //add story box
     [self.view addSubview:storyWindow];     //add the entire thing to the master view
 }
