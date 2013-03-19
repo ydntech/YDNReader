@@ -66,7 +66,7 @@
 {
     //a bit clunky...oh well
 	NewsStory *story = [[[NewsStory alloc] init] autorelease]; //need release here
-    [story loadWithTitle:cell.titleLabel.text link:cell.articleLink description:cell.descriptionLabel.text imageLink:cell.thumbnailURL];
+    [story loadWithTitle:cell.titleLabel.text link:cell.articleLink description:cell.descriptionLabel.text imageLink:cell.thumbnailURL]; //somehow it's reading ALL of this as a method name, not stopping after each arg
     
     
     if (![[FavoritesList defaultFavorites] removeFromFavorites:story]) 

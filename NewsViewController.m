@@ -49,14 +49,15 @@
     
     /*Title Box*/
     UITextView *storyTitle = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
-    [storyTitle setText:entry.title];                                                               //set title string
-    [storyTitle setFont:[UIFont fontWithName:@"Helvetica" size:15]];                                //font stuff
-    [storyTitle sizeToFit];                                                                         //make the label fit to the size of its text
-    CGRect textFrame = storyTitle.frame;                                                              //make a rect to resize the textview to the height of its contents
+    [storyTitle setText:entry.title];                                                   //set title string
+    [storyTitle setFont:[UIFont fontWithName:@"Helvetica" size:15]];                    //font stuff
+    [storyTitle sizeToFit];                                                             //make the label fit to the size of its text
+    CGRect textFrame = storyTitle.frame;                                                //make a rect to resize the textview to the height of its contents
     textFrame.size.height = storyTitle.contentSize.height;
     storyTitle.frame = textFrame;
     storyTitle.editable = NO;
-    currHeight += storyTitle.frame.size.height;                                                     //update current height
+    currHeight += storyTitle.frame.size.height;                                         //update current height
+    
     
     /*Story content box*/
     UITextView *storyContent = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)]; //now make a box for the story content under the label
@@ -64,7 +65,7 @@
     [storyContent setText:entry.storyContent];
     [storyContent setTextColor:[UIColor darkGrayColor]];
     [storyContent sizeToFit];
-    textFrame = storyContent.frame;                                                              //make a rect to resize the textview to the height of its contents
+    textFrame = storyContent.frame;                                                     //make a rect to resize the textview to the height of its contents
     textFrame.size.height = storyContent.contentSize.height;
     storyContent.frame = textFrame;
     storyContent.editable = NO;                                                                         //don't let people edit our textview

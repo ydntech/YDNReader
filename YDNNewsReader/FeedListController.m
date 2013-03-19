@@ -54,8 +54,6 @@
     //this string contains the entire RSS feed we get from the feedURL
     NSMutableString *xmlString = [[NSMutableString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
     //NSLog(@"%@", xmlString); // this displays the stuff from the www.yaledailynews.com/feed
- 
-    //eventually make a program/parser to catch ALL OF THIS SHIT.
     
     /*REPLACE THIS SHIT*/
     [xmlString replaceOccurrencesOfString:@"<p>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
@@ -72,14 +70,15 @@
     [xmlString replaceOccurrencesOfString:@"&#8221;" withString:@"\"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#8212;" withString:@"-" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#8213;" withString:@"-" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    [xmlString replaceOccurrencesOfString:@"&#8216;" withString:@"\'" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
  
     TBXML *tbxml = [[TBXML tbxmlWithXMLString:xmlString] retain]; //parses xml into tbxml
     [xmlString release]; //don't need xml anymore
  
     // If TBXML found a root node, process element and iterate all children
     if (tbxml.rootXMLElement) //TBXML.m does this, inits when he initialized the tbxml
-    [self traverseElement:tbxml.rootXMLElement]; //Calls traverseElement (which is in THIS file, just below, which iterates over all the elements and processes them.
- 
+        [self traverseElement:tbxml.rootXMLElement]; //Calls traverseElement
+    
     [tbxml release];
  
     [self setLastUpdated:[NSDate date]];
@@ -134,13 +133,15 @@
     do {
         NSString *elementName = [TBXML elementName:element];
         //NSLog(@"%@",elementName); // run this to find element names you need to process.
-        //Element names are basically the tags in the RSS feed
+        //Element names are the tags in the RSS feed
+        //KEY NOTE: ORDER of element processing is important. Need to process the current article's desc/content
+        //before it storyToAdd is initialized, or things will be off.
         if ([elementName isEqualToString:@"lastBuildDate"]) {
            [newsStories removeAllObjects];
         }
         else if ([elementName isEqualToString:@"item"]) {
             storyToAdd = [[NewsStory alloc] init];
-            //NSLog(@"%@",storyToAdd);
+            //NSLog(@"storyToAdd: %@",storyToAdd);
         }
         else if ([elementName isEqualToString:@"title"]) {
             [currentTitle setString:[TBXML textForElement:element]];
@@ -150,44 +151,49 @@
             [currentLink setString:[TBXML textForElement:element]];
             //NSLog(@"%@",currentLink);
         }
+        /* else if ([elementName isEqualToString:@"pubDate"]) {
+         [currentDate setString:[TBXML textForElement:element]];
+         } */
+        /* else if ([elementName isEqualToString:@"dc:creator"]) {
+         //set the author to this one
+         } */
         else if ([elementName isEqualToString:@"description"]) {
             [currentDescription setString:[TBXML textForElement:element]];
             //return; //WHY THE FUCK WAS THIS LEFT HERE? #HATEDTAHARA
             //NSLog(@"%@",currentDescription);
+            //NSLog(@"Description");
         }
         else if ([elementName isEqualToString:@"content:encoded"]) {
-            //HOW WE GET THE SHIT FOR THE ACTUAL STORY? :OOOO
-            
             [currentStoryContent setString:[TBXML textForElement:element]];
-            //NSLog(@"%@",currentStoryContent);
-            //There is also wfw:commentRss
-            //and slash:comments
-        }
-        /* else if ([elementName isEqualToString:@"pubDate"]) {
-            [currentDate setString:[TBXML textForElement:element]];
-        } */
-        else if ([elementName isEqualToString:@"img"] && element->firstAttribute != nil) {
-            TBXMLAttribute *attribute = element->firstAttribute;
-            [currentImageLink setString:[TBXML attributeValue:attribute]];
-            //NSLog(@"%@",[TBXML attributeValue:attribute]);
-        }
-        else if([elementName isEqualToString:@"guid"]) {
-            //storyToAdd is a NewsStory (declared in FeedListController.h). This is
-            //initializing it with the stuff it found in the tbxml element. See te
-            //method name in NewsStory
-            [storyToAdd loadWithTitle:currentTitle 
-                                 link:currentLink 
+            //NSLog(@"%@",currentStoryContent); //debug
+            //NSLog(@"Content"); //debug
+            
+            //storyToAdd is a NewsStory (declared in FeedListController.h). It is init'ed each time an <item>
+            //appears in the RSS. We now are
+            //initializing it with the stuff it found in the tbxml element.
+            [storyToAdd loadWithTitle:currentTitle
+                                 link:currentLink
                           description:currentDescription //not all articles have a desc. date:currentDate;
                               content:currentStoryContent
                             imageLink:currentImageLink];
-            [newsStories addObject:storyToAdd];
-            //NSLog(@"%@", currentDescription); // THIS WAS NIL? SOMETIMES IN THE FEEDS IT IS NIL.
+            //NSLog(@"%@", storyToAdd);  //debug helper
+            if(storyToAdd != nil) { // Tries to add a 'nil' story after the last one. This protection keeps it from breaking, but is now duplicating the stories....
+                [newsStories addObject:storyToAdd];
+            }
             [storyToAdd release];
             storyToAdd = nil;
-            
         }
-        if (element->firstChild)
-            [self traverseElement:element->firstChild];
+        /*
+         //THIS CODE IS USELESS UNLESS WE HAVE <img> tags in the RSS feed
+         //When we do add it, beware of the order
+         else if ([elementName isEqualToString:@"img"] && element->firstAttribute != nil) {
+            TBXMLAttribute *attribute = element->firstAttribute;
+            [currentImageLink setString:[TBXML attributeValue:attribute]];
+            //NSLog(@"%@",[TBXML attributeValue:attribute]);
+        }*/
+        if (element->firstChild) {
+            [self traverseElement:element->firstChild]; //recursive call! Traverses all children of element
+        }
         
     } while ((element = element->nextSibling));  
     
