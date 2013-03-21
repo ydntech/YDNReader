@@ -10,13 +10,13 @@
 #import "FeedListController.h"
 
 
-//keep for now
-#import "WebViewController.h"
+//keep for now -- mimi: are any of these necessary for importing? Doesn't look like it
+//#import "WebViewController.h"
 
 #import "NewsStory.h"
-#import "FavoritesList.h"
+//#import "FavoritesList.h"
 
-#import "CustomFeedCell.h"
+//#import "CustomFeedCell.h" //unnecessary import
 
 
 //static NSString *rootFeed = @"http://www.yaledailynews.com/feed";
@@ -141,7 +141,7 @@
            [newsStories removeAllObjects];
         }
         else if ([elementName isEqualToString:@"item"]) {
-            storyToAdd = [[NewsStory alloc] init];
+            //storyToAdd = [[NewsStory alloc] init];
             //NSLog(@"storyToAdd: %@",storyToAdd);
         }
         else if ([elementName isEqualToString:@"title"]) {
@@ -158,7 +158,7 @@
         }
         else if ([elementName isEqualToString:@"dc:creator"]) {
             [currentAuthor setString:[TBXML textForElement:element]];
-            NSLog(@"%@",currentAuthor);
+            //NSLog(@"%@",currentAuthor);
         }
         else if ([elementName isEqualToString:@"description"]) {
             [currentDescription setString:[TBXML textForElement:element]];
@@ -174,6 +174,8 @@
             //storyToAdd is a NewsStory (declared in FeedListController.h). It is init'ed each time an <item>
             //appears in the RSS. We now are
             //initializing it with the stuff it found in the tbxml element.
+            
+            storyToAdd = [[NewsStory alloc] init]; //init here instead of above, protects against trying to make a story without an init.
             [storyToAdd loadWithTitle:currentTitle
                                  link:currentLink
                           description:currentDescription //not all articles have a desc.

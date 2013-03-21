@@ -10,7 +10,7 @@
 
 @implementation CustomFeedCell
 @synthesize delegate;
-@synthesize thumbnailURL, articleLink;
+@synthesize thumbnailURL, articleLink, date, author, content;
 @synthesize titleLabel, descriptionLabel;
 @synthesize favoritesButton, backButton, shareButton;
 
@@ -82,11 +82,19 @@
     // Release any cached data, images, etc that aren't in use.
 }
  */
-- (void)resetCellWithTitle:(NSString *)title description:(NSString *)description 
-                  imageURL:(NSString *)url articleLink:(NSString *)link
+- (void)resetCellWithTitle:(NSString *)title
+               description:(NSString *)description
+                      date:(NSString *)publicationDate
+                    author:(NSString *)storyAuthor
+                   content:(NSString *)storyContent
+                  imageURL:(NSString *)url
+               articleLink:(NSString *)link
 {
     [titleLabel setText:title];
     [descriptionLabel setText:description];
+    [self setDate:publicationDate];
+    [self setAuthor:storyAuthor];
+    [self setContent:storyContent];
     [self setThumbnailURL:url];
     [self setArticleLink:link];
     //NSLog(@"%@", articleLink);
@@ -276,6 +284,9 @@
 - (void)dealloc {
     [titleLabel release];
     [descriptionLabel release];
+    [date release];
+    [author release];
+    [content release];
     [thumbnailURL release];
     [thumbnailImage release];
     [articleLink release];

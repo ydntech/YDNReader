@@ -189,14 +189,10 @@
     NSString *encodedString = [storyLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:encodedString];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    [webView setScalesPageToFit:YES]; //Mimi added this. Scales the whole page to fit in the view of the phone FUCKYEAH
+    [webView setScalesPageToFit:YES]; //Mimi added this. Scales the whole page to fit in the view of the phone
     [webView loadRequest:req];
     //NSLog(@"Webview appearing");
     //NSLog(@"%@", storyLink);
-    
-    /*ALSO THIS APP IS STUPID RIGHT NOW, IT IS BASICALLY AN EASIER WAY TO GET TO THE WEBPAGE DISPLAYING THE STORY LOL. Probably those fancy
-     apps online for WSJ or something have fancy mobile websites that make their content look nicer on a phone. AND WE DON'T LOL. LOL.
-     */
 }
 
 #pragma mark - MFMailComposeViewControllerDelegate

@@ -26,6 +26,9 @@
     UILabel *titleLabel, *descriptionLabel;
     NSString *thumbnailURL;
     EGOImageView *thumbnailImage;
+    NSString *date;
+    NSString *author;
+    NSString *content;
     NSString *articleLink;
     
     UIButton *favoritesButton;
@@ -33,11 +36,17 @@
     UIButton *backButton;
 }
 
-@property (nonatomic, copy) NSString *thumbnailURL, *articleLink;
+@property (nonatomic, copy) NSString *thumbnailURL, *articleLink, *date, *author, *content;
 @property (nonatomic, readonly) UILabel *titleLabel, *descriptionLabel;
 @property (nonatomic, readonly) UIButton *favoritesButton, *shareButton, *backButton;
 
-- (void)resetCellWithTitle:(NSString *)title description:(NSString *)description imageURL:(NSString *)url articleLink:(NSString *)link;
+- (void)resetCellWithTitle:(NSString *)title
+               description:(NSString *)description
+                      date:(NSString *)date
+                    author:(NSString *)author
+                   content:(NSString *)content
+                  imageURL:(NSString *)url
+               articleLink:(NSString *)link;
 
 - (void)favoritesButtonWasTapped:(UIButton *)button;
 - (void)shareButtonWasTapped:(UIButton *)button;

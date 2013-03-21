@@ -40,6 +40,7 @@
 
 - (void)setNewsStories:(NSMutableArray *)recentStories
 {
+    //this is never actually called
     [newsStories release];
     newsStories = recentStories;
     [newsStories retain];
@@ -50,7 +51,7 @@
 - (void)dealloc
 {
     //[newsStories release];
-    [webView release];
+    //[webView release]; //this was not commented out. But we don't alloc a webview anywhere so I got rid of it.
     [super dealloc];
 }
 
@@ -66,7 +67,7 @@
 {
     //a bit clunky...oh well
 	NewsStory *story = [[[NewsStory alloc] init] autorelease]; //need release here
-    [story loadWithTitle:cell.titleLabel.text link:cell.articleLink description:cell.descriptionLabel.text imageLink:cell.thumbnailURL]; //somehow it's reading ALL of this as a method name, not stopping after each arg
+    [story loadWithTitle:cell.titleLabel.text link:cell.articleLink description:cell.descriptionLabel.text date:cell.date author:cell.author content:cell.content imageLink:cell.thumbnailURL];
     
     
     if (![[FavoritesList defaultFavorites] removeFromFavorites:story]) 
@@ -268,7 +269,14 @@
     int index = [indexPath row];
     NewsStory *currentStory = [self.newsStories objectAtIndex:index]; 
     
-    [cell resetCellWithTitle:[currentStory title] description:[currentStory storyDescription] imageURL:[currentStory imageLink] articleLink:[currentStory link]];
+    //where the customFeedCell for each NewsStory is set
+    [cell resetCellWithTitle:[currentStory title]
+                 description:[currentStory storyDescription]
+                        date:[currentStory publicationDate]
+                      author:[currentStory author]
+                     content:[currentStory storyContent]
+                    imageURL:[currentStory imageLink]
+                 articleLink:[currentStory link]];
     
     [cell setDelegate:self];
     

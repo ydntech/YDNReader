@@ -57,12 +57,12 @@
     
     //lets consider turning this into table view as well, doesn't seem too hard. Currently links to the crosscampus webpage.
     
-    NewsViewController *crossCampusController = [[NewsViewController alloc] initWithStory:nil];
+    //NewsViewController *crossCampusController = [[NewsViewController alloc] initWithStory:nil];
     
-    /*WebViewController *crossCampusController = [[WebViewController alloc]
+    WebViewController *crossCampusController = [[WebViewController alloc]
                                                 initWithTitle:@"Cross Campus" 
                                                 link:@"http://yaledailynews.com/crosscampus/" 
-                                                hidesBar:NO];*/
+                                                hidesBar:NO];
     
     UIColor *yaleBlue = [UIColor colorWithRed:0.0588235294
                                         green:0.301960784
