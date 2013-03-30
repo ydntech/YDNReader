@@ -6,16 +6,17 @@
 //  Copyright 2013 Yale University. All rights reserved.
 //
 
-/*  PURPOSE: This controller affects the list of articles (i.e. the first screen
-    of Top Stories and the list of articles after you click each category.
+/*  PURPOSE: This controller displays the list of articles (i.e. the first screen
+    of Top Stories and the list of articles after you click each category.)
  
-    It declares a global NSMutableArray *newsStories which it then displays
-    the stories from.
+    It declares a global NSMutableArray *newsStories. The information from each
+    NewsStory in newsStories is then put in a CustomFeedCell (resetCustomFeedCell)
  
     FeedListController is used to actually put the stories from the RSS feed
-    into newsStories. I think FeedListController is called because FLC contains
-    the method "connectionDidFinishLoading," which will be called when the
-    connection finishes loading, and thus results in the processing of the RSS feed.
+    into newsStories as NewsStory objects. I think FeedListController is called
+    because FLC contains the method "connectionDidFinishLoading," which will be 
+    called when the connection finishes loading, and thus results in the
+    processing of the RSS feed.
  */
 
 #import <Foundation/Foundation.h>

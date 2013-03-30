@@ -97,7 +97,6 @@
     [self setContent:storyContent];
     [self setThumbnailURL:url];
     [self setArticleLink:link];
-    //NSLog(@"%@", articleLink);
     
     if ([self.thumbnailURL isEqualToString:@""])
     {

@@ -8,11 +8,24 @@
 
 #import "NewsViewController.h"
 
+#import "TBXML.h"
+
 @interface NewsViewController ()
 
 @end
 
 @implementation NewsViewController
+
+- (NSMutableArray *)subViews
+{
+    return subViews;
+}
+
+- (void)setSubViews
+{
+    subViews = [[NSMutableArray alloc] init];
+    //[subViews retain];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,14 +58,16 @@
 - (void)loadStory:(NewsStory *)entry
 {
     int currHeight = 0; //keeps track of the current height so we can put each box under the one before
+    
     UIScrollView *storyWindow = [[UIScrollView alloc]  initWithFrame:CGRectMake(0, 0, 320, 365)];         //make a scrollable view as the canvas
+    CGRect textFrame;       //make a rect to resize the textview to the height of its contents
     
     /*Title Box*/
     UITextView *storyTitle = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
     [storyTitle setText:entry.title];                                                   //set title string
     [storyTitle setFont:[UIFont fontWithName:@"Helvetica" size:20]];                    //font stuff
     [storyTitle sizeToFit];                                                             //make the label fit to the size of its text
-    CGRect textFrame = storyTitle.frame;                                                //make a rect to resize the textview to the height of its contents
+    textFrame = storyTitle.frame;                                                
     textFrame.size.height = storyTitle.contentSize.height;
     storyTitle.frame = textFrame;
     storyTitle.editable = NO;
@@ -79,9 +94,10 @@
     storyAuthor.frame = textFrame;
     storyAuthor.editable = NO;
     currHeight += storyAuthor.frame.size.height;                                         //update current height
+
+    /*Story content box*/ //replace this with a method that spits out objects as necessary from the content
     
-    /*Story content box*/
-    UITextView *storyContent = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)]; //now make a box for the story content under the label
+    /*UITextView *storyContent = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)]; //now make a box for the story content under the label
     [storyContent setFont:[UIFont fontWithName:@"Helvetica" size:13]];
     [storyContent setText:entry.storyContent];
     [storyContent setTextColor:[UIColor darkGrayColor]];
@@ -90,15 +106,76 @@
     textFrame.size.height = storyContent.contentSize.height;
     storyContent.frame = textFrame;
     storyContent.editable = NO;                                                                         
-    currHeight += storyContent.frame.size.height;
+    currHeight += storyContent.frame.size.height;*/
+    
+    /*rendering content into boxes*/
+    TBXML *tbxml = [[TBXML tbxmlWithXMLString:entry.storyContent] retain]; //parses content into tbxml
+    currHeight = [self renderContent:tbxml.rootXMLElement currHeight:currHeight rect:textFrame];
     
     
     storyWindow.contentSize = CGSizeMake(storyWindow.contentSize.width, currHeight); //make the scrollable view the height of both objects
     [storyWindow addSubview:storyTitle];    //add title box
     [storyWindow addSubview:storyDate];    //add date box
     [storyWindow addSubview:storyAuthor];    //add author box
-    [storyWindow addSubview:storyContent];      //add story box
+    
+    NSLog(@"%@",self.subViews);
+    
+    NSInteger i = [self.subViews count];
+    NSLog(@"%i",i);
+    while(i != 0)
+        [storyWindow addSubview:[self.subViews objectAtIndex:i--]];
+    
+    
     [self.view addSubview:storyWindow];     //add the entire thing to the master view
+}
+
+/*  Method that runs through a string containing HTML and parses it using the TBXML
+    Then calls appropriate methods to display the content found. */
+- (int)renderContent:(TBXMLElement *)element
+           currHeight:(int)height
+                 rect:(CGRect)textFrame
+{
+    int currHeight = height;
+    
+    do {
+        NSString *elementName = [TBXML elementName:element];
+        NSLog(@"%@",elementName); // run this to find element names you need to process.
+        if ([elementName isEqualToString:@"p"]) {
+            currHeight = [self displayParagraph:[TBXML textForElement:element] currHeight:currHeight rect:textFrame];
+        }
+        else if ([elementName isEqualToString:@"img"]) {
+            //generate an image displaying thing
+        }
+        
+        /* Probably unnecessary since we will not be dealing with nested tags
+         if (element->firstChild) {
+            [self traverseElement:element->firstChild]; //recursive call! Traverses all children of element
+        }*/
+        
+    } while ((element = element->nextSibling));
+    
+    return currHeight;
+    
+}
+
+- (int)displayParagraph:(NSString *)text
+              currHeight:(int) height
+                     rect:(CGRect)textFrame
+{
+    UITextView *storyContent = [[UITextView alloc] initWithFrame:CGRectMake(0, height, 320, 360)]; //now make a box for the story content under the label
+    [storyContent setFont:[UIFont fontWithName:@"Helvetica" size:13]];
+    [storyContent setText:text];
+    [storyContent setTextColor:[UIColor darkGrayColor]];
+    [storyContent sizeToFit];
+    textFrame = storyContent.frame;                                                     //make a rect to resize the textview to the height of its contents
+    textFrame.size.height = storyContent.contentSize.height;
+    storyContent.frame = textFrame;
+    storyContent.editable = NO;
+    
+    [self.subViews addObject:storyContent];
+    NSLog(@"%@",self.subViews);
+    
+    return height + storyContent.frame.size.height;
 }
 
 //add a (void)loadAdvertisement: for future adspace?

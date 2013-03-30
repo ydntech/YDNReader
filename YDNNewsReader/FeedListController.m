@@ -57,8 +57,8 @@
     //NSLog(@"%@", xmlString); // this displays the stuff from the www.yaledailynews.com/feed
     
     /*REPLACE THIS SHIT*/
-    [xmlString replaceOccurrencesOfString:@"<p>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
-    [xmlString replaceOccurrencesOfString:@"</p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    /*[xmlString replaceOccurrencesOfString:@"<p>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    [xmlString replaceOccurrencesOfString:@"</p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];*/
     /*REPLACE THIS SHIT*/
     
     
@@ -162,7 +162,6 @@
         }
         else if ([elementName isEqualToString:@"description"]) {
             [currentDescription setString:[TBXML textForElement:element]];
-            //return; //WHY THE FUCK WAS THIS LEFT HERE? #HATEDTAHARA
             //NSLog(@"%@",currentDescription);
             //NSLog(@"Description");
         }
@@ -184,7 +183,7 @@
                               content:currentStoryContent
                             imageLink:currentImageLink];
             //NSLog(@"%@", storyToAdd);  //debug helper
-            if(storyToAdd != nil) { // Tries to add a 'nil' story after the last one. This protection keeps it from breaking, but is now duplicating the stories....
+            if(storyToAdd != nil) { // Tries to add a 'nil' story after the last one. This protection keeps it from breaking
                 [newsStories addObject:storyToAdd];
             }
             [storyToAdd release];
