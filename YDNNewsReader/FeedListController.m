@@ -177,6 +177,12 @@
                 }
                 [storyToAdd release];
                 storyToAdd = nil;
+                
+                /* This makes sure that the image for a story do not get used in the next story if the next doesn't have an image. */
+                [currentImageLink release];
+                currentImageLink = nil;
+                currentImageLink = [[NSMutableString alloc] init];
+                 
             }
             //NSLog(@"storyToAdd: %@",storyToAdd);
         }
@@ -201,6 +207,9 @@
             //NSLog(@"%@",currentDescription);
             //NSLog(@"Description");
         }
+        else if ([elementName isEqualToString:@"ydn:image"]){
+            [currentImageLink setString:[TBXML textForElement: element]];
+        }
         else if ([elementName isEqualToString:@"content:encoded"]) {
             [currentStoryContent setString:[TBXML textForElement:element]];
             //NSLog(@"%@",currentStoryContent); //debug
@@ -219,6 +228,7 @@
             [currentImageLink setString:[TBXML attributeValue:attribute]];
             //NSLog(@"%@",[TBXML attributeValue:attribute]);
         }*/
+        
         if (element->firstChild) {
             [self traverseElement:element->firstChild]; //recursive call! Traverses all children of element
         }

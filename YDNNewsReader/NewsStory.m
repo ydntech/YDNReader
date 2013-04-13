@@ -84,24 +84,23 @@
     [parsed replaceOccurrencesOfString:@"</u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     
     //get rid of links -- NOT SURE IF THIS WORKS BUT IT DOESN'T make build fail
-    NSRange start_range = [parsed rangeOfString:@"<a href="];
+    NSRange start_range = [parsed rangeOfString:@"<a href="]; //note, if rangeOfString does not find any instances of the string, MAX_INT is returned
     NSRange end_range = [parsed rangeOfString:@"</a>"];
-    NSLog(@"start range: %i", NSMaxRange(start_range));
-    NSLog(@"end range: %i", NSMaxRange(start_range));
-    while(NSMaxRange(start_range) != 2147483647) {
-        //This number used because start_range finds this number when no <a href tags found
+    //NSLog(@"start range: %i", NSMaxRange(start_range));
+    //NSLog(@"end range: %i", NSMaxRange(start_range));
+    while(NSMaxRange(start_range) != INT_MAX) {
         [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 8), NSMaxRange(end_range) - NSMaxRange(start_range) + 8) withString:@""];
         start_range = [parsed rangeOfString:@"<a href="];
         end_range = [parsed rangeOfString:@"</a>"];
     }
     
     //get rid of imgs
-    while(NSMaxRange(start_range) != 2147483647) {
+    while(NSMaxRange(start_range) != INT_MAX) {
         start_range = [parsed rangeOfString:@"<img"];
         end_range = [parsed rangeOfString:@" />"];
-        NSLog(@"start range: %i", NSMaxRange(start_range));
-        NSLog(@"end range: %i", NSMaxRange(end_range));
-        NSLog(@"parse range: %i", NSMaxRange(NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4)));
+        //NSLog(@"start range: %i", NSMaxRange(start_range));
+        //NSLog(@"end range: %i", NSMaxRange(end_range));
+        //NSLog(@"parse range: %i", NSMaxRange(NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4)));
         [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4) withString:@""];
         start_range = [parsed rangeOfString:@"<img"];
         end_range = [parsed rangeOfString:@"/>"];

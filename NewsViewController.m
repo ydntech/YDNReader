@@ -59,8 +59,20 @@
 {
     int currHeight = 0; //keeps track of the current height so we can put each box under the one before
     
-    UIScrollView *storyWindow = [[UIScrollView alloc]  initWithFrame:CGRectMake(0, 0, 320, 365)];         //make a scrollable view as the canvas
+    UIScrollView *storyWindow = [[UIScrollView alloc]  initWithFrame:CGRectMake(0, 0, 320, 370)];         //make a scrollable view as the canvas (only works for vertical view)
     CGRect textFrame;       //make a rect to resize the textview to the height of its contents
+    
+    /*Image Box*/
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:entry.imageLink]]];
+    UIImageView *storyImage = [[UIImageView alloc] initWithImage:image];
+    float imgFactor = storyImage.frame.size.height / storyImage.frame.size.width;
+    textFrame.size.width = [[UIScreen mainScreen] bounds].size.width;
+    textFrame.size.height = textFrame.size.width * imgFactor;
+    /* To make sure there is an image before you try to load it! */
+    if(!isnan(textFrame.size.width) && !isnan(textFrame.size.height)){
+        storyImage.frame = textFrame;
+        currHeight += storyImage.frame.size.height;
+    }
     
     /*Title Box*/
     UITextView *storyTitle = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
@@ -116,13 +128,14 @@
     
     
     storyWindow.contentSize = CGSizeMake(storyWindow.contentSize.width, currHeight); //make the scrollable view the height of both objects
+    [storyWindow addSubview:storyImage];    //add image
     [storyWindow addSubview:storyTitle];    //add title box
     [storyWindow addSubview:storyDate];    //add date box
     [storyWindow addSubview:storyAuthor];    //add author box
     [storyWindow addSubview:storyContent];
     
-    /*NSLog(@"%@",self.subViews);
-    
+    /*
+    NSLog(@"%@",self.subViews);
     NSInteger i = [self.subViews count];
     NSLog(@"%i",i);
     while(i != 0)
