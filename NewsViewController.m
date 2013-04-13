@@ -219,7 +219,7 @@
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     picker.mailComposeDelegate = self;
     
-    [picker setSubject:@"Check out this article from the Yale Daily News"];
+    [picker setSubject:@"A YDN article you might like..."];
     
     // Fill out the email body text
     NSString *appLink = @"http://itunes.apple.com/us/app/yale-daily-news/id480072824?mt=8";

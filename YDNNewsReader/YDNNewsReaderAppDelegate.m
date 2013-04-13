@@ -32,8 +32,8 @@
                                  @"http://www.yaledailynews.com/blog/category/city/feed",
                                  @"http://www.yaledailynews.com/blog/category/sci-tech/feed",
                                  @"http://www.yaledailynews.com/blog/category/features/feed",
-                                 @"http://www.yaledailynews.com/blog/category/weekend/feed", //no feeds exists
-                                 @"http://www.yaledailynews.com/blog/category/magazine/feed", //no feeds exists
+                                 @"http://www.yaledailynews.com/blog/category/weekend/feed",
+                                 @"http://www.yaledailynews.com/blog/category/magazine/feed",
                                  nil]
                                 autorelease];
     NSArray *objects = [[[NSArray alloc] initWithObjects:

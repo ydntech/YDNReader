@@ -86,6 +86,7 @@
     [parsed replaceOccurrencesOfString:@"</i>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     [parsed replaceOccurrencesOfString:@"<u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     [parsed replaceOccurrencesOfString:@"</u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    [parsed replaceOccurrencesOfString:@"<br />" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     
     //get rid of links
     NSRange start_range = [parsed rangeOfString:@"<a href="];
