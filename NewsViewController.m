@@ -97,7 +97,7 @@
 
     /*Story content box*/ //replace this with a method that spits out objects as necessary from the content
     
-    /*UITextView *storyContent = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)]; //now make a box for the story content under the label
+    UITextView *storyContent = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)]; //now make a box for the story content under the label
     [storyContent setFont:[UIFont fontWithName:@"Helvetica" size:13]];
     [storyContent setText:entry.storyContent];
     [storyContent setTextColor:[UIColor darkGrayColor]];
@@ -106,24 +106,27 @@
     textFrame.size.height = storyContent.contentSize.height;
     storyContent.frame = textFrame;
     storyContent.editable = NO;                                                                         
-    currHeight += storyContent.frame.size.height;*/
+    currHeight += storyContent.frame.size.height;
     
-    /*rendering content into boxes*/
+    /*rendering content into boxes*/ //currently does not work
+    
+    /*
     TBXML *tbxml = [[TBXML tbxmlWithXMLString:entry.storyContent] retain]; //parses content into tbxml
-    currHeight = [self renderContent:tbxml.rootXMLElement currHeight:currHeight rect:textFrame];
+    currHeight = [self renderContent:tbxml.rootXMLElement currHeight:currHeight rect:textFrame];*/
     
     
     storyWindow.contentSize = CGSizeMake(storyWindow.contentSize.width, currHeight); //make the scrollable view the height of both objects
     [storyWindow addSubview:storyTitle];    //add title box
     [storyWindow addSubview:storyDate];    //add date box
     [storyWindow addSubview:storyAuthor];    //add author box
+    [storyWindow addSubview:storyContent];
     
-    NSLog(@"%@",self.subViews);
+    /*NSLog(@"%@",self.subViews);
     
     NSInteger i = [self.subViews count];
     NSLog(@"%i",i);
     while(i != 0)
-        [storyWindow addSubview:[self.subViews objectAtIndex:i--]];
+        [storyWindow addSubview:[self.subViews objectAtIndex:i--]];*/
     
     
     [self.view addSubview:storyWindow];     //add the entire thing to the master view
@@ -173,7 +176,7 @@
     storyContent.editable = NO;
     
     [self.subViews addObject:storyContent];
-    NSLog(@"%@",self.subViews);
+    //NSLog(@"%@",self.subViews);
     
     return height + storyContent.frame.size.height;
 }

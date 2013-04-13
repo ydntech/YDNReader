@@ -51,7 +51,7 @@
     } else if ([articleContent isEqualToString:@""]) {
         //empty articleContent
     } else {
-        [self setStoryContent:articleContent];
+        [self setStoryContent:[self parse:articleContent]];
     }
         
     //make www. into m., if necessary --currently disabled
@@ -69,6 +69,52 @@
         }
     }
     return NO;
+}
+
+#pragma mark Parsing Stories
+- (NSString *)parse:(NSString *)input {
+    NSMutableString *parsed = [[NSMutableString alloc] initWithString:input];
+    
+    //No formatting allowed
+    [parsed replaceOccurrencesOfString:@"<strong>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+     [parsed replaceOccurrencesOfString:@"</strong>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    [parsed replaceOccurrencesOfString:@"<i>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    [parsed replaceOccurrencesOfString:@"</i>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    [parsed replaceOccurrencesOfString:@"<u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    [parsed replaceOccurrencesOfString:@"</u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    
+    //get rid of links -- NOT SURE IF THIS WORKS BUT IT DOESN'T make build fail
+    NSRange start_range = [parsed rangeOfString:@"<a href="];
+    NSRange end_range = [parsed rangeOfString:@"</a>"];
+    NSLog(@"start range: %i", NSMaxRange(start_range));
+    NSLog(@"end range: %i", NSMaxRange(start_range));
+    while(NSMaxRange(start_range) != 2147483647) {
+        //This number used because start_range finds this number when no <a href tags found
+        [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 8), NSMaxRange(end_range) - NSMaxRange(start_range) + 8) withString:@""];
+        start_range = [parsed rangeOfString:@"<a href="];
+        end_range = [parsed rangeOfString:@"</a>"];
+    }
+    
+    //get rid of imgs
+    while(NSMaxRange(start_range) != 2147483647) {
+        start_range = [parsed rangeOfString:@"<img"];
+        end_range = [parsed rangeOfString:@" />"];
+        NSLog(@"start range: %i", NSMaxRange(start_range));
+        NSLog(@"end range: %i", NSMaxRange(end_range));
+        NSLog(@"parse range: %i", NSMaxRange(NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4)));
+        [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4) withString:@""];
+        start_range = [parsed rangeOfString:@"<img"];
+        end_range = [parsed rangeOfString:@"/>"];
+    }
+    
+    //get rid of extra paragraph spaces
+    [parsed replaceOccurrencesOfString:@"</p>\n<p></p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])]; //Note that the XMLstring given automatically has a \n after every </p>, but we do not see it in the view.
+    [parsed replaceOccurrencesOfString:@"<p>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    [parsed replaceOccurrencesOfString:@"</p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    
+    //NSString *substring = [[parsed substringFromIndex:NSMaxRange(range)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    return parsed;
 }
 
 

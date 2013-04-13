@@ -61,7 +61,7 @@
     [xmlString replaceOccurrencesOfString:@"</p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];*/
     /*REPLACE THIS SHIT*/
     
-    
+    [xmlString replaceOccurrencesOfString:@"&nbsp;" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&lt;" withString:@"<" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&gt;" withString:@">" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#124;" withString:@"|" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
@@ -77,8 +77,26 @@
     [xmlString release]; //don't need xml anymore
  
     // If TBXML found a root node, process element and iterate all children
-    if (tbxml.rootXMLElement) //TBXML.m does this, inits when he initialized the tbxml
+    if (tbxml.rootXMLElement) { //TBXML.m does this, inits when he initialized the tbxml
         [self traverseElement:tbxml.rootXMLElement]; //Calls traverseElement
+        
+        //QuickFix - may not be the best method
+        //Catch the last story that needs to be added (since we add the second to last story when we see the last <item> tag
+        storyToAdd = [[NewsStory alloc] init]; //init here instead of above, protects against trying to make a story without an init.
+        [storyToAdd loadWithTitle:currentTitle
+                             link:currentLink
+                      description:currentDescription //not all articles have a desc.
+                             date:currentDate
+                           author:currentAuthor
+                          content:currentStoryContent
+                        imageLink:currentImageLink];
+        //NSLog(@"%@", storyToAdd);  //debug helper
+        if(storyToAdd != nil) { // Tries to add a 'nil' story after the last one. This protection keeps it from breaking
+            [newsStories addObject:storyToAdd];
+        }
+        [storyToAdd release];
+        storyToAdd = nil;
+    }
     
     [tbxml release];
  
@@ -130,7 +148,9 @@
 }
 - (void) traverseElement:(TBXMLElement *)element 
 {
-    //item child title, link, description child image attribute src, story child p, p, p, etc 
+    //item child title, link, description child image attribute src, story child p, p, p, etc
+    int firstFlag = 1;
+    
     do {
         NSString *elementName = [TBXML elementName:element];
         //NSLog(@"%@",elementName); // run this to find element names you need to process.
@@ -141,7 +161,23 @@
            [newsStories removeAllObjects];
         }
         else if ([elementName isEqualToString:@"item"]) {
-            //storyToAdd = [[NewsStory alloc] init];
+            if(firstFlag) firstFlag = 0;
+            else {
+                storyToAdd = [[NewsStory alloc] init]; //init here instead of above, protects against trying to make a story without an init.
+                [storyToAdd loadWithTitle:currentTitle
+                                     link:currentLink
+                              description:currentDescription //not all articles have a desc.
+                                     date:currentDate
+                                   author:currentAuthor
+                                  content:currentStoryContent
+                                imageLink:currentImageLink];
+                //NSLog(@"%@", storyToAdd);  //debug helper
+                if(storyToAdd != nil) { // Tries to add a 'nil' story after the last one. This protection keeps it from breaking
+                    [newsStories addObject:storyToAdd];
+                }
+                [storyToAdd release];
+                storyToAdd = nil;
+            }
             //NSLog(@"storyToAdd: %@",storyToAdd);
         }
         else if ([elementName isEqualToString:@"title"]) {
@@ -173,21 +209,7 @@
             //storyToAdd is a NewsStory (declared in FeedListController.h). It is init'ed each time an <item>
             //appears in the RSS. We now are
             //initializing it with the stuff it found in the tbxml element.
-            
-            storyToAdd = [[NewsStory alloc] init]; //init here instead of above, protects against trying to make a story without an init.
-            [storyToAdd loadWithTitle:currentTitle
-                                 link:currentLink
-                          description:currentDescription //not all articles have a desc.
-                                 date:currentDate
-                               author:currentAuthor
-                              content:currentStoryContent
-                            imageLink:currentImageLink];
-            //NSLog(@"%@", storyToAdd);  //debug helper
-            if(storyToAdd != nil) { // Tries to add a 'nil' story after the last one. This protection keeps it from breaking
-                [newsStories addObject:storyToAdd];
-            }
-            [storyToAdd release];
-            storyToAdd = nil;
+        
         }
         /*
          //THIS CODE IS USELESS UNLESS WE HAVE <img> tags in the RSS feed
@@ -201,7 +223,7 @@
             [self traverseElement:element->firstChild]; //recursive call! Traverses all children of element
         }
         
-    } while ((element = element->nextSibling));  
+    } while ((element = element->nextSibling));
     
 }
 
@@ -214,7 +236,7 @@
     
 }
 
-- (void)doneLoadingTableViewData 	//  model should call this when its done loading 
+- (void)doneLoadingTableViewData 	//  model should call this when its done loading
 {
 	reloading = NO;
 	[refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
