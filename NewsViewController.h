@@ -9,9 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "NewsStory.h"
 
-@interface NewsViewController : UIViewController
+//for Sharing
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+
+@interface NewsViewController : UIViewController <MFMailComposeViewControllerDelegate>
 {
     NSMutableArray *subViews;
+    NSString *mailTitle;
+    NSString *mailDescription;
+    NSString *mailLink;
+    NSString *mailImageLink;
 }
 
 - (NSMutableArray *)subViews;
@@ -19,5 +27,14 @@
 
 /*This is a new init method to load story text into box.*/
 - (id)initWithStory:(NewsStory *)entry;
+
+/*for sharing*/
+- (void)share;
+- (void)sendMail;
+
+@property (nonatomic, copy) NSString *mailTitle;
+@property (nonatomic, copy) NSString *mailDescription;
+@property (nonatomic, copy) NSString *mailLink;
+@property (nonatomic, copy) NSString *mailImageLink;
 
 @end

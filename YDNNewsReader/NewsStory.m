@@ -42,7 +42,11 @@
         [self setStoryDescription:articleDescription];
     }
     
-    [self setPublicationDate:pubDate];
+    //makes pubDate less ugly
+    NSMutableString *parsedPubDate = [[NSMutableString alloc] initWithString:pubDate];
+    [parsedPubDate replaceOccurrencesOfString:@"+0000" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsedPubDate length])];
+    
+    [self setPublicationDate:parsedPubDate];
     [self setAuthor:articleAuthor]; //might need to check if nil.
     [self setImageLink:imLink];
     
@@ -77,33 +81,41 @@
     
     //No formatting allowed
     [parsed replaceOccurrencesOfString:@"<strong>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
-     [parsed replaceOccurrencesOfString:@"</strong>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    [parsed replaceOccurrencesOfString:@"</strong>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     [parsed replaceOccurrencesOfString:@"<i>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     [parsed replaceOccurrencesOfString:@"</i>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     [parsed replaceOccurrencesOfString:@"<u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     [parsed replaceOccurrencesOfString:@"</u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     
-    //get rid of links -- NOT SURE IF THIS WORKS BUT IT DOESN'T make build fail
-    NSRange start_range = [parsed rangeOfString:@"<a href="]; //note, if rangeOfString does not find any instances of the string, MAX_INT is returned
+    //get rid of links
+    NSRange start_range = [parsed rangeOfString:@"<a href="];
     NSRange end_range = [parsed rangeOfString:@"</a>"];
-    //NSLog(@"start range: %i", NSMaxRange(start_range));
-    //NSLog(@"end range: %i", NSMaxRange(start_range));
-    while(NSMaxRange(start_range) != INT_MAX) {
-        [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 8), NSMaxRange(end_range) - NSMaxRange(start_range) + 8) withString:@""];
+    while(NSMaxRange(start_range) != 2147483647) {
+        //This number used because start_range finds this number when no <a href tags found
+        [parsed deleteCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 8), NSMaxRange(end_range) - NSMaxRange(start_range) + 8)];
         start_range = [parsed rangeOfString:@"<a href="];
         end_range = [parsed rangeOfString:@"</a>"];
     }
     
     //get rid of imgs
-    while(NSMaxRange(start_range) != INT_MAX) {
-        start_range = [parsed rangeOfString:@"<img"];
-        end_range = [parsed rangeOfString:@" />"];
+    start_range = [parsed rangeOfString:@"<img"];
+    end_range = [parsed rangeOfString:@" />"];
+    while(NSMaxRange(start_range) != 2147483647) {
         //NSLog(@"start range: %i", NSMaxRange(start_range));
         //NSLog(@"end range: %i", NSMaxRange(end_range));
         //NSLog(@"parse range: %i", NSMaxRange(NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4)));
-        [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4) withString:@""];
+        [parsed deleteCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4)];
         start_range = [parsed rangeOfString:@"<img"];
         end_range = [parsed rangeOfString:@"/>"];
+    }
+    
+    //get rid of iframe
+    start_range = [parsed rangeOfString:@"<iframe"];
+    end_range = [parsed rangeOfString:@"</iframe>"];
+    while(NSMaxRange(start_range) != 2147483647) {
+        [parsed deleteCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 7), NSMaxRange(end_range) - NSMaxRange(start_range) + 7)];
+        start_range = [parsed rangeOfString:@"<iframe>"];
+        end_range = [parsed rangeOfString:@"</iframe>"];
     }
     
     //get rid of extra paragraph spaces
