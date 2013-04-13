@@ -151,6 +151,14 @@ moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath
     return NO;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    UINavigationBar *bar = [self.navigationController navigationBar];
+    [bar setTintColor:[UIColor blackColor]];
+}
+
+
 - (void)didReceiveMemoryWarning 
 {
     [super didReceiveMemoryWarning];

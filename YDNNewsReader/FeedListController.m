@@ -30,7 +30,6 @@
     feedURL = [[NSMutableString alloc] initWithString:rssFeedURL];
     feedTitle = [[NSMutableString alloc] initWithString:rssFeedTitle];
     newsStories = [[NSMutableArray alloc] init];
-    //webView = [[WebViewController alloc] init];
     
     currentTitle = [[NSMutableString alloc] init];
     currentLink = [[NSMutableString alloc] init];
@@ -315,6 +314,9 @@
     [super viewDidLoad];
 	if (refreshHeaderView == nil) 
     {
+        UINavigationBar *bar = [self.navigationController navigationBar];
+        [bar setTintColor:[UIColor blackColor]];
+        
         EGORefreshTableHeaderView *refreshView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
 		refreshView.delegate = self;
 		[self.tableView addSubview:refreshView];

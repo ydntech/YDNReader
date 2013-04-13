@@ -338,6 +338,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UINavigationBar *bar = [self.navigationController navigationBar];
+    [bar setTintColor:[UIColor blackColor]];
     [self.tableView setRowHeight:90.0];
 }
 
