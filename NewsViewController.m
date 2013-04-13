@@ -132,6 +132,18 @@
     storyContent.editable = NO;                                                                         
     currHeight += storyContent.frame.size.height;
     
+    UITextView *storyLink = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)]; //now make a box for the story link
+    storyLink.editable = NO;
+    storyLink.dataDetectorTypes = UIDataDetectorTypeAll; //Makes link clickable
+    [storyLink setFont:[UIFont fontWithName:@"Helvetica" size:13]];
+    [storyLink setText:[@"View the article in your browser:\n" stringByAppendingString:entry.link]];
+    [storyLink setTextColor:[UIColor darkGrayColor]];
+    [storyLink sizeToFit];
+    textFrame = storyLink.frame;                                                     //make a rect to resize the textview to the height of its contents
+    textFrame.size.height = storyLink.contentSize.height;
+    storyLink.frame = textFrame;
+    currHeight += storyLink.frame.size.height;
+    
     /*rendering content into boxes*/ //currently does not work
     
     /*
@@ -145,6 +157,7 @@
     [storyWindow addSubview:storyDate];    //add date box
     [storyWindow addSubview:storyAuthor];    //add author box
     [storyWindow addSubview:storyContent];
+    [storyWindow addSubview:storyLink];
     
     /*
     NSLog(@"%@",self.subViews);

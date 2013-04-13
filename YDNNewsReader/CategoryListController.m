@@ -57,7 +57,7 @@ NSString * const CategoryFeedURLsOrderPrefKey = @"CategoryFeedURLsOrderPrefKey";
         //[tbi setTitle:@"Categories"];
         
         [[self navigationItem] setTitle:@"Categories"];
-        [[self navigationItem] setRightBarButtonItem:[self editButtonItem]];
+        //[[self navigationItem] setRightBarButtonItem:[self editButtonItem]];
     }
     
     return self;

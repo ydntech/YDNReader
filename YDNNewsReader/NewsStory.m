@@ -114,7 +114,7 @@
     start_range = [parsed rangeOfString:@"<iframe"];
     end_range = [parsed rangeOfString:@"</iframe>"];
     while(NSMaxRange(start_range) != 2147483647) {
-        [parsed deleteCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 7), NSMaxRange(end_range) - NSMaxRange(start_range) + 7)];
+        [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 7), NSMaxRange(end_range) - NSMaxRange(start_range) + 7) withString:@"[App unable to render video, please view in browser (click link below)]"];
         start_range = [parsed rangeOfString:@"<iframe>"];
         end_range = [parsed rangeOfString:@"</iframe>"];
     }

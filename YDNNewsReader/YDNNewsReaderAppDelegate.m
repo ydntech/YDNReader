@@ -102,19 +102,13 @@
     [[favoritesTab navigationBar] setTintColor:yaleBlue];
 
 
-    /*CROSS CAMPUS TAB (WebViewController)*/
+    /*CROSS CAMPUS TAB (NewsViewController)*/
     UINavigationController *crossCampusTab = [[[UINavigationController alloc] initWithRootViewController:crossCampusController] autorelease];
     NSString *ccImagePath = [[NSBundle mainBundle] pathForResource:@"124-bullhorn" 
                                                                     ofType:@"png"];
     UITabBarItem *ccTabItem = [[[UITabBarItem alloc] initWithTitle:@"Cross Campus" image:[UIImage imageWithContentsOfFile:ccImagePath] tag:1] autorelease];
     [crossCampusTab setTabBarItem:ccTabItem];
     [[crossCampusTab navigationBar] setTintColor:yaleBlue];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Home"
-                                                                style:UIBarButtonItemStylePlain
-                                                                  target:crossCampusController
-                                                                action:@selector(home:)];
-    [[crossCampusController navigationItem] setLeftBarButtonItem:backButton];
-    [backButton release];
     
     [categoryListController release];
     [mainFeedController release];
