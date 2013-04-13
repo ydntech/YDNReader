@@ -16,6 +16,8 @@
 
 @implementation NewsViewController
 
+@synthesize mailTitle, mailDescription, mailLink, mailImageLink;
+
 - (NSMutableArray *)subViews
 {
     return subViews;
@@ -35,9 +37,17 @@
 
 - (id)initWithStory:(NewsStory *)entry
 {
-    [self initWithNibName:nil bundle:nil];
     if(self) { //check if it has actually been init'ed
         [self loadStory:entry];
+        
+        [self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share)] autorelease]];
+        
+        //[self setHidesBottomBarWhenPushed:YES]; //can hide bottom bar if we want to
+        
+        [self setMailTitle:entry.title];
+        [self setMailDescription:entry.storyDescription];
+        [self setMailLink:entry.link];
+        [self setMailImageLink:entry.imageLink];
     }
     return self;
 }
@@ -132,6 +142,8 @@
     [self.view addSubview:storyWindow];     //add the entire thing to the master view
 }
 
+
+//GET RID OF THESE TWO METHODS SOON
 /*  Method that runs through a string containing HTML and parses it using the TBXML
     Then calls appropriate methods to display the content found. */
 - (int)renderContent:(TBXMLElement *)element
@@ -179,6 +191,96 @@
     //NSLog(@"%@",self.subViews);
     
     return height + storyContent.frame.size.height;
+}
+
+#pragma mark Sharing methods
+
+- (void)share
+{
+     //check canSendMail somewhere
+	[self sendMail];
+}
+
+- (void)sendMail
+{
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    picker.mailComposeDelegate = self;
+    
+    [picker setSubject:@"Check out this article from the Yale Daily News"];
+    
+    // Fill out the email body text
+    NSString *appLink = @"http://itunes.apple.com/us/app/yale-daily-news/id480072824?mt=8";
+    NSString *emailBody = [NSString stringWithFormat:
+                           @"<html><body><h3>%@</h3>"
+                           @"<p>%@</p>"
+                           @"<p>... Read the rest of the article <a href = %@>here</a>.</p><p></p>"
+                           @"<p>Sent from the Yale Daily News iPhone App.  "
+                           @"<a href = '%@'>Download</a> yours today.</p>"
+                           @"</body></html>",
+                           mailTitle,
+                           mailDescription,
+                           mailLink,
+                           appLink];
+    
+    //change fonts size of link
+    
+    [picker setMessageBody:emailBody isHTML:YES];
+    
+    NSData *image = [NSData dataWithContentsOfURL:[NSURL URLWithString:mailImageLink]];
+    [picker addAttachmentData:image mimeType:@"image/png" fileName:@"YDNImage"];
+    
+    [picker.navigationBar setBarStyle:UIBarStyleBlack];
+    [picker.navigationBar setTintColor:[UIColor colorWithRed:0.0588235294
+                                                       green:0.301960784
+                                                        blue:0.57254902
+                                                       alpha:0]];
+    
+    [self presentModalViewController:picker animated:YES];
+    [picker release];
+}
+
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+		{
+            //[alert setTitle:@"Email Canceled"];
+            break;
+        }
+		case MFMailComposeResultSaved:
+		{
+            //[alert setTitle:@"Email Saved"];
+            break;
+        }
+		case MFMailComposeResultSent:
+		{
+            //[alert setTitle:@"Email Sent"];
+            break;
+        }
+            /*
+             case MFMailComposeResultFailed:
+             {
+             //[alert setTitle:@"Email Failed"];
+             break;
+             }
+             */
+		default:
+		{
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Email"
+                                                             message:@"Sending failed"
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil] autorelease];
+            [alert show];
+        }
+	}
+    
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 //add a (void)loadAdvertisement: for future adspace?
