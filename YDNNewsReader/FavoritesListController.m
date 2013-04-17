@@ -35,7 +35,6 @@
 {
     [super viewDidLoad];
     UINavigationBar *bar = [self.navigationController navigationBar];
-    [bar setTintColor:[UIColor blackColor]];
     [[self navigationItem] setTitle:@"To Read"];
     //webView = [[WebViewController alloc] init];
 }

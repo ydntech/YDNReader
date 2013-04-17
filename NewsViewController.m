@@ -56,7 +56,6 @@
 {
     [super viewDidLoad];
     UINavigationBar *bar = [self.navigationController navigationBar];
-    [bar setTintColor:[UIColor blackColor]];
 	// Do any additional setup after loading the view.
     
 }

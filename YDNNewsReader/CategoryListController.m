@@ -155,7 +155,6 @@ moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath
 {
     [super viewDidLoad];
     UINavigationBar *bar = [self.navigationController navigationBar];
-    [bar setTintColor:[UIColor blackColor]];
 }
 
 

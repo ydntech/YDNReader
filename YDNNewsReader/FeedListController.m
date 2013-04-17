@@ -316,7 +316,6 @@
 	if (refreshHeaderView == nil) 
     {
         UINavigationBar *bar = [self.navigationController navigationBar];
-        [bar setTintColor:[UIColor blackColor]];
         
         EGORefreshTableHeaderView *refreshView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
 		refreshView.delegate = self;

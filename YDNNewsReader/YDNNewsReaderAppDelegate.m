@@ -33,7 +33,7 @@
                                  @"http://www.yaledailynews.com/blog/category/sci-tech/feed",
                                  @"http://www.yaledailynews.com/blog/category/features/feed",
                                  @"http://www.yaledailynews.com/blog/category/weekend/feed",
-                                 @"http://www.yaledailynews.com/blog/category/magazine/feed",
+                                 @"http://www.yaledailynews.com/magazine/feed",
                                  nil]
                                 autorelease];
     NSArray *objects = [[[NSArray alloc] initWithObjects:
@@ -64,10 +64,9 @@
                                                 link:@"http://yaledailynews.com/crosscampus/" 
                                                 hidesBar:NO];*/
     
-     
-    UIColor *yaleBlue = [UIColor colorWithRed:0.0588235294
-                                        green:0.301960784
-                                         blue:0.57254902
+    UIColor *yaleBlue = [UIColor colorWithRed:0
+                                        green:20.4/255.0
+                                         blue:41.6/255.0
                                         alpha:0];
     
     /*TOP STORIES TAB (FeedListController)*/
