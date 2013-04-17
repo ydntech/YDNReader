@@ -79,54 +79,50 @@
 - (NSString *)parse:(NSString *)input {
     NSMutableString *parsed = [[NSMutableString alloc] initWithString:input];
     
-    //No formatting allowed
-    [parsed replaceOccurrencesOfString:@"<strong>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
-    [parsed replaceOccurrencesOfString:@"</strong>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
-    [parsed replaceOccurrencesOfString:@"<i>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
-    [parsed replaceOccurrencesOfString:@"</i>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
-    [parsed replaceOccurrencesOfString:@"<u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
-    [parsed replaceOccurrencesOfString:@"</u>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    /* SPECIAL FORMATTING PARSES */
+        //Known tags: strong, b, i, u, li, em
+        //All tags not specifically parsed for will be processed later by regular exp.
+    [parsed replaceOccurrencesOfString:@"<b>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    [parsed replaceOccurrencesOfString:@"</b>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     [parsed replaceOccurrencesOfString:@"<br />" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     
-    //get rid of links
-    NSRange start_range = [parsed rangeOfString:@"<a href="];
-    NSRange end_range = [parsed rangeOfString:@"</a>"];
+    /*GET RID OF VIDEOS */
+    NSRange start_range = [parsed rangeOfString:@"<iframe"];
+    NSRange end_range = [parsed rangeOfString:@"</iframe>"];
     while(NSMaxRange(start_range) != 2147483647) {
-        //This number used because start_range finds this number when no <a href tags found
-        [parsed deleteCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 8), NSMaxRange(end_range) - NSMaxRange(start_range) + 8)];
-        start_range = [parsed rangeOfString:@"<a href="];
-        end_range = [parsed rangeOfString:@"</a>"];
-    }
-    
-    //get rid of imgs
-    start_range = [parsed rangeOfString:@"<img"];
-    end_range = [parsed rangeOfString:@" />"];
-    while(NSMaxRange(start_range) != 2147483647) {
-        //NSLog(@"start range: %i", NSMaxRange(start_range));
-        //NSLog(@"end range: %i", NSMaxRange(end_range));
-        //NSLog(@"parse range: %i", NSMaxRange(NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4)));
-        [parsed deleteCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 4), NSMaxRange(end_range) - NSMaxRange(start_range) + 4)];
-        start_range = [parsed rangeOfString:@"<img"];
-        end_range = [parsed rangeOfString:@"/>"];
-    }
-    
-    //get rid of iframe
-    start_range = [parsed rangeOfString:@"<iframe"];
-    end_range = [parsed rangeOfString:@"</iframe>"];
-    while(NSMaxRange(start_range) != 2147483647) {
-        [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 7), NSMaxRange(end_range) - NSMaxRange(start_range) + 7) withString:@"[App unable to render video, please view in browser (click link below)]"];
-        start_range = [parsed rangeOfString:@"<iframe>"];
+        [parsed replaceCharactersInRange:NSMakeRange((NSMaxRange(start_range) - 7), NSMaxRange(end_range) - NSMaxRange(start_range) + 7) withString:@"[App unable to render video, please view article in browser (click link below)]"];
+        start_range = [parsed rangeOfString:@"<iframe"];
         end_range = [parsed rangeOfString:@"</iframe>"];
     }
     
-    //get rid of extra paragraph spaces
-    [parsed replaceOccurrencesOfString:@"</p>\n<p></p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])]; //Note that the XMLstring given automatically has a \n after every </p>, but we do not see it in the view.
-    [parsed replaceOccurrencesOfString:@"<p>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
+    
+    /* PARSE PARAGRAPHS */
+        //Note that the XMLstring given automatically has a \n after every </p>, but we do not see it in the view.
+    //[parsed replaceOccurrencesOfString:@"<p>" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     [parsed replaceOccurrencesOfString:@"</p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [parsed length])];
     
-    //NSString *substring = [[parsed substringFromIndex:NSMaxRange(range)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    /* CATCH-ALL FOR ALL OTHER FORMATTING TAGS */
+        //Will catch and remove anything with brackets < and >
+        //Note the .*? is important otherwise .* will match the > character as well and erase huge amounts of text
+    NSString *bracketParse = [[NSRegularExpression regularExpressionWithPattern:@"<.*?>"
+                                                 options:0
+                                                 error:NULL]
+                             stringByReplacingMatchesInString:parsed
+                             options:0
+                             range:NSMakeRange(0, [parsed length])
+                             withTemplate:@""];
     
-    return parsed;
+    /* DEAL WITH MULTIPLE \n IN A ROW*/
+    NSString * whiteParse = [[NSRegularExpression regularExpressionWithPattern:@"\\n+"
+                                               options:0
+                                                 error:NULL]
+                             stringByReplacingMatchesInString:bracketParse
+                             options:0
+                             range:NSMakeRange(0, [bracketParse length])
+                             withTemplate:@"\n\n"];
+    
+    [parsed release]; //release for memory management
+    return whiteParse;
 }
 
 
