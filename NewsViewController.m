@@ -55,7 +55,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UINavigationBar *bar = [self.navigationController navigationBar];
+    //UINavigationBar *bar = [self.navigationController navigationBar];
 	// Do any additional setup after loading the view.
     
 }
@@ -88,7 +88,7 @@
     /*Title Box*/
     UITextView *storyTitle = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
     [storyTitle setText:entry.title];                                                   //set title string
-    [storyTitle setFont:[UIFont fontWithName:@"Helvetica" size:20]];                    //font stuff
+    [storyTitle setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];                    //font stuff
     [storyTitle sizeToFit];                                                             //make the label fit to the size of its text
     textFrame = storyTitle.frame;                                                
     textFrame.size.height = storyTitle.contentSize.height;
@@ -98,7 +98,7 @@
     
     /*Story PubDate Box*/
     UITextView *storyDate = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
-    [storyDate setText:entry.publicationDate];                                         //set date string
+    [storyDate setText:[@"Published on: " stringByAppendingString:entry.publicationDate]];                                         //set date string
     [storyDate setFont:[UIFont fontWithName:@"Helvetica" size:14]];                    //font stuff
     [storyDate sizeToFit];                                                             //make the label fit to the size of its text
     textFrame = storyDate.frame;                                                //make a rect to resize the textview to the height of its contents
@@ -109,7 +109,7 @@
     
     /*Story Author Box*/
     UITextView *storyAuthor = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)];
-    [storyAuthor setText:entry.author];                                         //set author string
+    [storyAuthor setText:[@"Written by: " stringByAppendingString:entry.author]];                                         //set author string
     [storyAuthor setFont:[UIFont fontWithName:@"Helvetica" size:14]];                    //font stuff
     [storyAuthor sizeToFit];                                                             //make the label fit to the size of its text
     textFrame = storyAuthor.frame;                                                //make a rect to resize the textview to the height of its contents
@@ -121,6 +121,7 @@
     /*Story content box*/ //replace this with a method that spits out objects as necessary from the content
     
     UITextView *storyContent = [[UITextView alloc] initWithFrame:CGRectMake(0, currHeight, 320, 360)]; //now make a box for the story content under the label
+    storyContent.dataDetectorTypes = UIDataDetectorTypeLink;
     [storyContent setFont:[UIFont fontWithName:@"Helvetica" size:13]];
     [storyContent setText:entry.storyContent];
     [storyContent setTextColor:[UIColor darkGrayColor]];
@@ -135,7 +136,7 @@
     storyLink.editable = NO;
     storyLink.dataDetectorTypes = UIDataDetectorTypeAll; //Makes link clickable
     [storyLink setFont:[UIFont fontWithName:@"Helvetica" size:13]];
-    [storyLink setText:[@"View the article in your browser:\n" stringByAppendingString:entry.link]];
+    [storyLink setText:[@"View this article in your browser:\n" stringByAppendingString:entry.link]];
     [storyLink setTextColor:[UIColor darkGrayColor]];
     [storyLink sizeToFit];
     textFrame = storyLink.frame;                                                     //make a rect to resize the textview to the height of its contents

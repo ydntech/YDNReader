@@ -154,7 +154,7 @@ moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UINavigationBar *bar = [self.navigationController navigationBar];
+    //UINavigationBar *bar = [self.navigationController navigationBar];
 }
 
 

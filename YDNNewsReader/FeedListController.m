@@ -60,7 +60,7 @@
     [xmlString replaceOccurrencesOfString:@"</p>" withString:@"\n" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];*/
     /*REPLACE THIS SHIT*/
     
-    [xmlString replaceOccurrencesOfString:@"&nbsp;" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    /*[xmlString replaceOccurrencesOfString:@"&nbsp;" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&amp;" withString:@"&" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&lt;" withString:@"<" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&gt;" withString:@">" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
@@ -71,7 +71,7 @@
     [xmlString replaceOccurrencesOfString:@"&#8221;" withString:@"\"" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#8212;" withString:@"-" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
     [xmlString replaceOccurrencesOfString:@"&#8213;" withString:@"-" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
-    [xmlString replaceOccurrencesOfString:@"&#8216;" withString:@"\'" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];
+    [xmlString replaceOccurrencesOfString:@"&#8216;" withString:@"\'" options:NSLiteralSearch range:NSMakeRange(0, [xmlString length])];*/
  
     TBXML *tbxml = [[TBXML tbxmlWithXMLString:xmlString] retain]; //parses xml into tbxml
     [xmlString release]; //don't need xml anymore
@@ -315,7 +315,7 @@
     [super viewDidLoad];
 	if (refreshHeaderView == nil) 
     {
-        UINavigationBar *bar = [self.navigationController navigationBar];
+        //UINavigationBar *bar = [self.navigationController navigationBar];
         
         EGORefreshTableHeaderView *refreshView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
 		refreshView.delegate = self;

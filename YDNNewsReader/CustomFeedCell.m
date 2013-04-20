@@ -114,7 +114,9 @@
 {
 	if ([delegate respondsToSelector:@selector(cellFavoritesButtonWasTapped:)])
     {
+        NSLog(@"custom cell: isSelected %@", ([self.favoritesButton isSelected]) ? @"YES" : @"NO");
         [self.favoritesButton setSelected:![self.favoritesButton isSelected]];
+        NSLog(@"custom cell: set isSelected to %@", ([self.favoritesButton isSelected]) ? @"YES" : @"NO");
         [delegate cellFavoritesButtonWasTapped:self];
 	}
 }
@@ -136,10 +138,12 @@
 
 - (void)backViewWillAppear 
 {
+    NSLog(@"customCell: backview isSelected1 %@", ([favoritesButton isSelected]) ? @"YES" : @"NO");
     if ([[FavoritesList defaultFavorites] isFavorite:[titleLabel text]]) 
     {
-        [favoritesButton setSelected:YES]; 
+        [favoritesButton setSelected:YES]; //this code should catch if story already appears in favorites.
     }
+    NSLog(@"customCell: backview isSelected2 %@", ([favoritesButton isSelected]) ? @"YES" : @"NO");
     
 	[self.backView addSubview:favoritesButton];
     [self.backView addSubview:shareButton];

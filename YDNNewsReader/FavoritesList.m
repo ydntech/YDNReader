@@ -126,10 +126,10 @@ static FavoritesList *favoritesList = nil;
     return self;
 }
 
-- (void)release
+/*- (void)release
 {
     
-}
+}*/
 
 - (NSUInteger)retainCount
 {

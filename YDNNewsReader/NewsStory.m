@@ -55,7 +55,8 @@
     } else if ([articleContent isEqualToString:@""]) {
         //empty articleContent
     } else {
-        [self setStoryContent:[self parse:articleContent]];
+        //[self setStoryContent:[self parse:articleContent]];
+        [self setStoryContent:articleContent];
     }
         
     //make www. into m., if necessary --currently disabled

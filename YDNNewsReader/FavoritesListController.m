@@ -34,7 +34,7 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    UINavigationBar *bar = [self.navigationController navigationBar];
+    //UINavigationBar *bar = [self.navigationController navigationBar];
     [[self navigationItem] setTitle:@"To Read"];
     //webView = [[WebViewController alloc] init];
 }

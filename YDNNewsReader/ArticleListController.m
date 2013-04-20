@@ -69,7 +69,7 @@
 	NewsStory *story = [[[NewsStory alloc] init] autorelease]; //need release here
     [story loadWithTitle:cell.titleLabel.text link:cell.articleLink description:cell.descriptionLabel.text date:cell.date author:cell.author content:cell.content imageLink:cell.thumbnailURL];
     
-    
+    NSLog(@"articleList: isSelected %@", ([cell.favoritesButton isSelected]) ? @"YES" : @"NO");
     if (![[FavoritesList defaultFavorites] removeFromFavorites:story]) 
     {
         if (![[FavoritesList defaultFavorites] addToFavorites:story]) 
@@ -85,6 +85,7 @@
             [cell.favoritesButton setSelected:![cell.favoritesButton isSelected]];
         }
     }
+    NSLog(@"articleList: isSelected %@", ([cell.favoritesButton isSelected]) ? @"YES" : @"NO");
     
 	[self hideVisibleBackView:YES];
 }
@@ -338,7 +339,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UINavigationBar *bar = [self.navigationController navigationBar];
+    //UINavigationBar *bar = [self.navigationController navigationBar];
     [self.tableView setRowHeight:90.0];
 }
 
